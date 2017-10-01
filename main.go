@@ -57,8 +57,8 @@ func drawCanvas() {
 func drawStatusBar() {
   selectedColor := colors[selectedColorIndex]
 
-  for i, r := range mode {
-    termbox.SetCell(i, canvasRows, r, selectedColor, termbox.ColorDefault)
+  for i, character := range mode {
+    termbox.SetCell(i, canvasRows, character, selectedColor, termbox.ColorDefault)
   }
 
   for x := len(mode) + 1; x < canvasColumns; x++ {

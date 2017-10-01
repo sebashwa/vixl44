@@ -96,13 +96,13 @@ func newPosition(oldPosition int, diff int, limit int) int {
   }
 }
 
-func moveCursorX(diff int) {
-  cursor.X = newPosition(cursor.X, diff, canvasColumns - 1)
-  draw()
-}
+func moveCursor(direction rune, diff int) {
+  if direction == 'X' {
+    cursor.X = newPosition(cursor.X, diff, canvasColumns - 1)
+  } else if direction == 'Y' {
+    cursor.Y = newPosition(cursor.Y, diff, canvasRows)
+  }
 
-func moveCursorY(diff int) {
-  cursor.Y = newPosition(cursor.Y, diff, canvasRows)
   draw()
 }
 
@@ -191,35 +191,35 @@ loop:
       case '$':
         jumpToEndOfLine()
       case 'b':
-        moveCursorX(-10)
+        moveCursor('X', -10)
       case 'g':
         jumpToFirstLine()
       case 'G':
         jumpToLastLine()
       case 'h':
-        moveCursorX(-2)
+        moveCursor('X', -2)
       case 'j':
-        moveCursorY(1)
+        moveCursor('Y', 1)
       case 'k':
-        moveCursorY(-1)
+        moveCursor('Y', -1)
       case 'J':
         selectColor(+1)
       case 'K':
         selectColor(-1)
       case 'l':
-        moveCursorX(+2)
+        moveCursor('X', +2)
       case 'q':
         break loop
       case 'w':
-        moveCursorX(+10)
+        moveCursor('X', +10)
       case 'x':
         setColor(termbox.ColorDefault)
       }
       switch event.Key {
       case termbox.KeyCtrlU:
-        moveCursorY(-5)
+        moveCursor('Y', -5)
       case termbox.KeyCtrlD:
-        moveCursorY(+5)
+        moveCursor('Y', +5,)
       case termbox.KeyCtrlV:
         switchToVisualBlockMode()
       case termbox.KeyEsc:

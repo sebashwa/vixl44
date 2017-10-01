@@ -236,6 +236,8 @@ loop:
         moveCursor('X', +2)
       case 'q':
         break loop
+      case 's':
+        selectColor(canvas[cursor.X][cursor.Y])
       case 'w':
         moveCursor('X', +10)
       case 'x':

@@ -149,9 +149,9 @@ func rangeLimits(a, b int) (int, int) {
 
 func setColor(color termbox.Attribute) {
   if mode == normalMode {
-    canvas[cursor.X][cursor.Y] = colors[selectedColorIndex]
-    canvas[cursor.X + 1][cursor.Y] = colors[selectedColorIndex]
-  } else {
+    canvas[cursor.X][cursor.Y] = color
+    canvas[cursor.X + 1][cursor.Y] = color
+  } else if mode == visualBlockMode {
     xMin, xMax := rangeLimits(visualModeFixpoint.X, cursor.X)
     yMin, yMax := rangeLimits(visualModeFixpoint.Y, cursor.Y)
 
@@ -161,6 +161,8 @@ func setColor(color termbox.Attribute) {
         canvas[x + 1][y] = color
       }
     }
+
+    mode = normalMode
   }
 
   draw()

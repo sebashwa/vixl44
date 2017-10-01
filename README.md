@@ -1,2 +1,2 @@
 # vixl44
-Create pixel art with vim movements inside the console
+Create pixel art inside your terminal using vim movements

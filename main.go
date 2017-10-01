@@ -13,22 +13,12 @@ const visualBlockMode = "VISUAL-BLOCK"
 const normalMode = "NORMAL"
 const canvasRows = 40
 const canvasColumns = 80
-var colors = []termbox.Attribute {
-	termbox.ColorRed,
-	termbox.ColorGreen,
-	termbox.ColorBlue,
-	termbox.ColorYellow,
-	termbox.ColorCyan,
-	termbox.ColorMagenta,
-	termbox.ColorWhite,
-	termbox.ColorBlack,
-}
 
 var canvas [canvasColumns][canvasRows] termbox.Attribute
 var mode = normalMode
 var cursor = Vertex{0,0}
 var visualModeFixpoint = Vertex{0,0}
-var selectedColorIndex = 0
+var selectedColor = 1
 
 /* DRAWING */
 
@@ -55,7 +45,7 @@ func drawCanvas() {
 }
 
 func drawStatusBar() {
-  selectedColor := colors[selectedColorIndex]
+  selectedColor := termbox.Attribute(selectedColor)
 
   for i, character := range mode {
     termbox.SetCell(i, canvasRows, character, selectedColor, termbox.ColorDefault)
@@ -127,15 +117,16 @@ func jumpToLastLine() {
 }
 
 func selectColor(diff int) {
-  newIndex := selectedColorIndex + diff
+  newIndex := selectedColor + diff
 
-  if newIndex < 0 {
-    selectedColorIndex = len(colors) - 1
-  } else if newIndex >= len(colors) {
-    selectedColorIndex = 0
+  if newIndex < 1 {
+    selectedColor = 256
+  } else if newIndex > 256 {
+    selectedColor = 1
   } else {
-    selectedColorIndex = newIndex
+    selectedColor = newIndex
   }
+
   draw()
 }
 
@@ -147,7 +138,7 @@ func rangeLimits(a, b int) (int, int) {
   return a, b
 }
 
-func setColor(color termbox.Attribute) {
+func paintColor(color termbox.Attribute) {
   if mode == normalMode {
     canvas[cursor.X][cursor.Y] = color
     canvas[cursor.X + 1][cursor.Y] = color
@@ -215,7 +206,7 @@ loop:
       case 'w':
         moveCursor('X', +10)
       case 'x':
-        setColor(termbox.ColorDefault)
+        paintColor(termbox.ColorDefault)
       }
       switch event.Key {
       case termbox.KeyCtrlU:
@@ -227,7 +218,7 @@ loop:
       case termbox.KeyEsc:
         switchToNormalMode()
       case termbox.KeySpace:
-        setColor(colors[selectedColorIndex])
+        paintColor(termbox.Attribute(selectedColor))
       }
 		case termbox.EventResize:
       draw()
@@ -240,6 +231,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+  termbox.SetOutputMode(termbox.Output256)
 	defer termbox.Close()
   termbox.HideCursor()
 

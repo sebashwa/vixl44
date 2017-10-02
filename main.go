@@ -1,6 +1,7 @@
 package main
 
 import (
+  "flag"
   "github.com/nsf/termbox-go"
 )
 
@@ -12,11 +13,15 @@ type Vertex struct {
 const visualBlockMode = "VISUAL-BLOCK"
 const normalMode = "NORMAL"
 const colorSelectMode = "COLOR-SELECT"
-const canvasRows = 20
-const canvasColumns = 40
 
-var palette [canvasColumns][canvasRows] termbox.Attribute
-var canvas [canvasColumns][canvasRows] termbox.Attribute
+var canvasRows int
+var canvasColumns int
+const canvasRowsDefault = 20
+const canvasColumnsDefault = 20
+
+var canvas [][]termbox.Attribute
+var palette [][]termbox.Attribute
+
 var mode = normalMode
 var cursor = Vertex{0,0}
 var visualModeFixpoint = Vertex{0,0}
@@ -271,8 +276,38 @@ loop:
 	}
 }
 
-func fillPalette() {
+func parseFlags() {
+  flag.IntVar(&canvasRows, "rows", canvasRowsDefault, "number of rows on your canvas, 0 means full height")
+  flag.IntVar(&canvasColumns, "cols", canvasColumnsDefault, "number of columns on your canvas, 0 means full width")
+
+  flag.Parse()
+}
+
+func calculateCanvasSize() {
+  if canvasRows < 0 { canvasRows = canvasRowsDefault }
+  if canvasColumns < 0 { canvasColumns = canvasColumnsDefault }
+
+  terminalWidth, terminalHeight := termbox.Size()
+  if canvasColumns == 0 { canvasColumns = terminalWidth / 2 }
+  if canvasRows == 0 { canvasRows = terminalHeight - 1 }
+
+  canvasColumns = canvasColumns * 2
+}
+
+func createCanvas() {
+  canvas = make([][]termbox.Attribute, canvasColumns)
+  for x := 0; x < canvasColumns; x++ {
+    canvas[x] = make([]termbox.Attribute, canvasRows)
+  }
+}
+
+func createPalette() {
   colorIndex := 1
+
+  palette = make([][]termbox.Attribute, canvasColumns)
+  for x := 0; x < canvasColumns; x++ {
+    palette[x] = make([]termbox.Attribute, canvasRows)
+  }
 
 loop:
   for y := 0; y < canvasRows; y++ {
@@ -293,7 +328,12 @@ func main() {
 		panic(err)
 	}
   termbox.SetOutputMode(termbox.Output256)
-  fillPalette()
+
+  parseFlags()
+  calculateCanvasSize()
+  createCanvas()
+  createPalette()
+
 	defer termbox.Close()
   termbox.HideCursor()
 

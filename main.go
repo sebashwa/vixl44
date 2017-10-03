@@ -13,6 +13,7 @@ type Vertex struct {
 const visualBlockMode = "VISUAL-BLOCK"
 const normalMode = "NORMAL"
 const colorSelectMode = "COLOR-SELECT"
+const commandMode = "COMMAND"
 
 var canvasRows int
 var canvasColumns int
@@ -26,6 +27,7 @@ var mode = normalMode
 var cursor = Vertex{0,0}
 var visualModeFixpoint = Vertex{0,0}
 var selectedColor = termbox.Attribute(256)
+var command []rune
 
 /* DRAWING */
 
@@ -66,14 +68,21 @@ func drawPalette() {
 }
 
 func drawStatusBar() {
-  selectedColor := termbox.Attribute(selectedColor)
+  if mode == commandMode {
+    termbox.SetCell(0, canvasRows, ':', termbox.ColorWhite, termbox.ColorDefault)
+    for i, char := range(command) {
+      termbox.SetCell(i + 1, canvasRows, char, termbox.ColorWhite, termbox.ColorDefault)
+    }
+  } else {
+    selectedColor := termbox.Attribute(selectedColor)
 
-  for i, character := range mode {
-    termbox.SetCell(i, canvasRows, character, selectedColor, termbox.ColorDefault)
-  }
+    for i, character := range mode {
+      termbox.SetCell(i, canvasRows, character, selectedColor, termbox.ColorDefault)
+    }
 
-  for x := len(mode) + 1; x < canvasColumns; x++ {
-    termbox.SetCell(x, canvasRows, ' ', selectedColor, selectedColor)
+    for x := len(mode) + 1; x < canvasColumns; x++ {
+      termbox.SetCell(x, canvasRows, ' ', selectedColor, selectedColor)
+    }
   }
 }
 
@@ -191,6 +200,32 @@ func fillArea(color termbox.Attribute) {
   draw()
 }
 
+func appendToCommand(char rune) {
+  command = append(command, char)
+  draw()
+}
+
+func truncateCommand() {
+  if len(command) > 0 {
+    command = command[:len(command) - 1]
+    draw()
+  }
+}
+
+func executeCommand() bool {
+  switch string(command) {
+  case "q":
+    return true
+  default:
+    return false
+  }
+}
+
+func switchToCommandMode() {
+  mode = commandMode
+  draw()
+}
+
 func switchToNormalMode() {
   mode = normalMode
   draw()
@@ -214,51 +249,62 @@ loop:
 	for {
 		switch event := termbox.PollEvent(); event.Type {
 		case termbox.EventKey:
-      switch event.Ch {
-      case '0':
-        jumpToBeginningOfLine()
-      case '$':
-        jumpToEndOfLine()
-      case 'b':
-        moveCursor('X', -10)
-      case 'c':
-        switchToColorSelectMode()
-      case 'g':
-        jumpToFirstLine()
-      case 'G':
-        jumpToLastLine()
-      case 'h':
-        moveCursor('X', -2)
-      case 'j':
-        moveCursor('Y', 1)
-      case 'k':
-        moveCursor('Y', -1)
-      case 'J':
-        adjustColor(+1)
-      case 'K':
-        adjustColor(-1)
-      case 'l':
-        moveCursor('X', +2)
-      case 'q':
-        break loop
-      case 's':
-        selectColor(canvas[cursor.X][cursor.Y])
-      case 'w':
-        moveCursor('X', +10)
-      case 'x':
-        if mode == normalMode {
-          fillPixel(termbox.ColorDefault)
-        } else if mode == visualBlockMode {
-          fillArea(termbox.ColorDefault)
+      if mode == commandMode {
+        if event.Ch != 0 {
+          appendToCommand(event.Ch)
+        }
+      } else {
+        switch event.Ch {
+        case '0':
+          jumpToBeginningOfLine()
+        case '$':
+          jumpToEndOfLine()
+        case ':':
+          switchToCommandMode()
+        case 'b':
+          moveCursor('X', -10)
+        case 'c':
+          switchToColorSelectMode()
+        case 'g':
+          jumpToFirstLine()
+        case 'G':
+          jumpToLastLine()
+        case 'h':
+          moveCursor('X', -2)
+        case 'j':
+          moveCursor('Y', 1)
+        case 'k':
+          moveCursor('Y', -1)
+        case 'J':
+          adjustColor(+1)
+        case 'K':
+          adjustColor(-1)
+        case 'l':
+          moveCursor('X', +2)
+        case 's':
+          selectColor(canvas[cursor.X][cursor.Y])
+        case 'w':
+          moveCursor('X', +10)
+        case 'x':
+          if mode == normalMode {
+            fillPixel(termbox.ColorDefault)
+          } else if mode == visualBlockMode {
+            fillArea(termbox.ColorDefault)
+          }
         }
       }
       switch event.Key {
+      case termbox.KeyBackspace, termbox.KeyBackspace2:
+        truncateCommand()
       case termbox.KeyCtrlU:
         moveCursor('Y', -5)
       case termbox.KeyCtrlD:
         moveCursor('Y', +5,)
       case termbox.KeyCtrlV:
         switchToVisualBlockMode()
+      case termbox.KeyEnter:
+        err := executeCommand()
+        if err { break loop }
       case termbox.KeyEsc:
         switchToNormalMode()
       case termbox.KeySpace:

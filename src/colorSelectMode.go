@@ -5,17 +5,17 @@ import (
 )
 
 func selectColor(color termbox.Attribute) {
-  app.selectedColor = color
-  app.currentMode = modes.normalMode
+  app.SelectedColor = color
+  app.CurrentMode = modes.NormalMode
 }
 
 func colorSelectModeKeyMapping(Ch rune, Key termbox.Key) {
   switch Ch {
   case 'q':
-    app.currentMode = modes.normalMode
+    app.CurrentMode = modes.NormalMode
   }
   switch Key {
   case termbox.KeySpace, termbox.KeyEnter:
-    selectColor(app.palette.values[cursor.X][cursor.Y])
+    selectColor(app.Palette.Values[cursor.X][cursor.Y])
   }
 }

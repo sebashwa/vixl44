@@ -5,15 +5,15 @@ import (
 )
 
 type Canvas struct {
-  values [][]termbox.Attribute
-  rows int
-  columns int
+  Values [][]termbox.Attribute
+  Rows int
+  Columns int
 }
 
-func (canvas Canvas) draw() {
-  for x, column := range canvas.values {
+func (canvas Canvas) Draw() {
+  for x, column := range canvas.Values {
     for y := range column {
-      color := canvas.values[x][y]
+      color := canvas.Values[x][y]
       termbox.SetCell(x, y, ' ', color, color)
     }
   }

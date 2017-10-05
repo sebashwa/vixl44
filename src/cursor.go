@@ -16,10 +16,10 @@ func drawCursor(x, y int) {
   cursorColor := termbox.ColorWhite
   var backgroundColor termbox.Attribute
 
-  if app.currentMode == modes.colorSelectMode {
-    backgroundColor = app.palette.values[x][y]
+  if app.CurrentMode == modes.ColorSelectMode {
+    backgroundColor = app.Palette.Values[x][y]
   } else {
-    backgroundColor = app.canvas.values[x][y]
+    backgroundColor = app.Canvas.Values[x][y]
   }
 
   if backgroundColor == termbox.ColorWhite {
@@ -57,20 +57,20 @@ func newPosition(oldPosition int, diff int, limit int) int {
 
 func moveCursor(direction rune, diff int) {
   if direction == 'X' {
-    cursor.X = newPosition(cursor.X, diff, app.canvas.columns - 1)
+    cursor.X = newPosition(cursor.X, diff, app.Canvas.Columns - 1)
 
   } else if direction == 'Y' {
-    cursor.Y = newPosition(cursor.Y, diff, app.canvas.rows)
+    cursor.Y = newPosition(cursor.Y, diff, app.Canvas.Rows)
   }
 
-  if app.currentMode != modes.visualBlockMode {
+  if app.CurrentMode != modes.VisualBlockMode {
     visualModeFixpoint.X = cursor.X
     visualModeFixpoint.Y = cursor.Y
   }
 }
 
 func jumpToEndOfLine() {
-  cursor.X = app.canvas.columns - 2
+  cursor.X = app.Canvas.Columns - 2
 }
 
 func jumpToBeginningOfLine() {
@@ -82,7 +82,7 @@ func jumpToFirstLine() {
 }
 
 func jumpToLastLine() {
-  cursor.Y = app.canvas.rows - 1
+  cursor.Y = app.Canvas.Rows - 1
 }
 
 func cursorMovementKeyMapping(Ch rune, Key termbox.Key) {

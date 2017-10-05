@@ -5,20 +5,20 @@ import (
 )
 
 func appendToCommand(char rune) bool {
-  app.commandBar.value = append(app.commandBar.value, char)
+  app.CommandBar.Value = append(app.CommandBar.Value, char)
   return false
 }
 
 func truncateCommand() bool {
-  if len(app.commandBar.value) > 0 {
-    newLength := len(app.commandBar.value) - 1
-    app.commandBar.value = app.commandBar.value[:newLength]
+  if len(app.CommandBar.Value) > 0 {
+    newLength := len(app.CommandBar.Value) - 1
+    app.CommandBar.Value = app.CommandBar.Value[:newLength]
   }
   return false
 }
 
 func executeCommand() bool {
-  switch string(app.commandBar.value) {
+  switch string(app.CommandBar.Value) {
   case "q":
     return true
   default:

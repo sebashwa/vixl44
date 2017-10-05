@@ -6,19 +6,19 @@ import (
 )
 
 type Modes struct {
-  normalMode string
-  visualBlockMode string
-  colorSelectMode string
-  commandMode string
+  NormalMode string
+  VisualBlockMode string
+  ColorSelectMode string
+  CommandMode string
 }
 
 type AppState struct {
-  canvas Canvas
-  palette Palette
-  statusBar StatusBar
-  commandBar CommandBar
-  selectedColor termbox.Attribute
-  currentMode string
+  Canvas Canvas
+  Palette Palette
+  StatusBar StatusBar
+  CommandBar CommandBar
+  SelectedColor termbox.Attribute
+  CurrentMode string
 }
 
 var modes Modes
@@ -27,22 +27,22 @@ var app AppState
 func draw() {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 
-  if app.currentMode == modes.colorSelectMode {
-    app.palette.draw()
+  if app.CurrentMode == modes.ColorSelectMode {
+    app.Palette.Draw()
   } else {
-    app.canvas.draw()
+    app.Canvas.Draw()
   }
 
-  if app.currentMode == modes.visualBlockMode {
+  if app.CurrentMode == modes.VisualBlockMode {
     drawVisualBlockCursor()
   } else {
     drawNormalCursor()
   }
 
-  if app.currentMode == modes.commandMode {
-    app.commandBar.draw()
+  if app.CurrentMode == modes.CommandMode {
+    app.CommandBar.Draw()
   } else {
-    app.statusBar.draw()
+    app.StatusBar.Draw()
   }
 
 	termbox.Flush()
@@ -53,7 +53,7 @@ loop:
 	for {
 		switch event := termbox.PollEvent(); event.Type {
 		case termbox.EventKey:
-      if app.currentMode == modes.commandMode {
+      if app.CurrentMode == modes.CommandMode {
         quit := commandModeKeyMapping(event.Ch, event.Key)
         if quit { break loop }
       } else {
@@ -61,12 +61,12 @@ loop:
         statusBarKeyMapping(event.Ch)
         modeKeyMapping(event.Ch, event.Key)
 
-        switch app.currentMode {
-        case modes.visualBlockMode:
+        switch app.CurrentMode {
+        case modes.VisualBlockMode:
           visualBlockModeKeyMapping(event.Ch, event.Key)
-        case modes.colorSelectMode:
+        case modes.ColorSelectMode:
           colorSelectModeKeyMapping(event.Ch, event.Key)
-        case modes.normalMode:
+        case modes.NormalMode:
           normalModeKeyMapping(event.Ch, event.Key)
         }
       }
@@ -93,11 +93,11 @@ func initializeApp() {
   rows, columns := parseFlags()
 
   canvas := createCanvas(rows, columns)
-  palette := createPalette(canvas.rows, canvas.columns)
-  statusBar := StatusBar{canvas.rows}
-  commandBar := CommandBar{canvas.rows, make([]rune, 0)}
+  palette := createPalette(canvas.Rows, canvas.Columns)
+  statusBar := StatusBar{canvas.Rows}
+  commandBar := CommandBar{canvas.Rows, make([]rune, 0)}
   selectedColor := termbox.Attribute(256)
-  currentMode := modes.normalMode
+  currentMode := modes.NormalMode
 
   app = AppState{
     canvas,

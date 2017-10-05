@@ -18,12 +18,12 @@ func fillArea(color termbox.Attribute) {
 
   for x := xMin; x <= xMax; x++ {
     for y := yMin; y <= yMax; y++ {
-      app.canvas.values[x][y] = color
-      app.canvas.values[x + 1][y] = color
+      app.Canvas.Values[x][y] = color
+      app.Canvas.Values[x + 1][y] = color
     }
   }
 
-  app.currentMode = modes.normalMode
+  app.CurrentMode = modes.NormalMode
 }
 
 func visualBlockModeKeyMapping(Ch rune, Key termbox.Key) {
@@ -33,6 +33,6 @@ func visualBlockModeKeyMapping(Ch rune, Key termbox.Key) {
   }
   switch Key {
   case termbox.KeySpace, termbox.KeyEnter:
-    fillArea(app.selectedColor)
+    fillArea(app.SelectedColor)
   }
 }

@@ -5,15 +5,15 @@ import (
 )
 
 type CommandBar struct {
-  position int
-  value []rune
+  Position int
+  Value []rune
 }
 
-func (commandBar CommandBar) draw() {
-  termbox.SetCell(0, commandBar.position, ':', termbox.ColorWhite, termbox.ColorDefault)
+func (commandBar CommandBar) Draw() {
+  termbox.SetCell(0, commandBar.Position, ':', termbox.ColorWhite, termbox.ColorDefault)
 
-  for i, char := range(commandBar.value) {
-    termbox.SetCell(i + 1, commandBar.position, char, termbox.ColorWhite, termbox.ColorDefault)
+  for i, char := range(commandBar.Value) {
+    termbox.SetCell(i + 1, commandBar.Position, char, termbox.ColorWhite, termbox.ColorDefault)
   }
 }
 

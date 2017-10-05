@@ -5,13 +5,13 @@ import (
 )
 
 type Palette struct {
-  values [][]termbox.Attribute
+  Values [][]termbox.Attribute
 }
 
-func (palette Palette) draw() {
-  for x, column := range palette.values {
+func (palette Palette) Draw() {
+  for x, column := range palette.Values {
     for y := range column {
-      color := termbox.Attribute(palette.values[x][y])
+      color := termbox.Attribute(palette.Values[x][y])
       termbox.SetCell(x, y, ' ', color, color)
     }
   }

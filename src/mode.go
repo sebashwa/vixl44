@@ -7,15 +7,15 @@ import (
 func modeKeyMapping(Ch rune, Key termbox.Key) {
   switch Key {
   case termbox.KeyCtrlV:
-    app.currentMode = modes.visualBlockMode
+    app.CurrentMode = modes.VisualBlockMode
   case termbox.KeyEsc:
-    app.currentMode = modes.normalMode
+    app.CurrentMode = modes.NormalMode
   }
 
   switch Ch {
   case ':':
-    app.currentMode = modes.commandMode
+    app.CurrentMode = modes.CommandMode
   case 'c':
-    app.currentMode = modes.colorSelectMode
+    app.CurrentMode = modes.ColorSelectMode
   }
 }

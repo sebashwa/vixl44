@@ -17,6 +17,7 @@ type AppState struct {
   Palette Palette
   StatusBar StatusBar
   CommandBar CommandBar
+  Cursor Cursor
   SelectedColor termbox.Attribute
   CurrentMode string
 }
@@ -34,9 +35,9 @@ func draw() {
   }
 
   if app.CurrentMode == modes.VisualBlockMode {
-    drawVisualBlockCursor()
+    app.Cursor.DrawBox()
   } else {
-    drawNormalCursor()
+    app.Cursor.Draw()
   }
 
   if app.CurrentMode == modes.CommandMode {
@@ -96,6 +97,7 @@ func initializeApp() {
   palette := createPalette(canvas.Rows, canvas.Columns)
   statusBar := StatusBar{canvas.Rows}
   commandBar := CommandBar{canvas.Rows, make([]rune, 0)}
+  cursor := Cursor{}
   selectedColor := termbox.Attribute(256)
   currentMode := modes.NormalMode
 
@@ -104,6 +106,7 @@ func initializeApp() {
     palette,
     statusBar,
     commandBar,
+    cursor,
     selectedColor,
     currentMode,
   }

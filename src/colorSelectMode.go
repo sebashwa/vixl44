@@ -16,6 +16,7 @@ func colorSelectModeKeyMapping(Ch rune, Key termbox.Key) {
   }
   switch Key {
   case termbox.KeySpace, termbox.KeyEnter:
-    selectColor(app.Palette.Values[cursor.X][cursor.Y])
+    position := app.Cursor.Position
+    selectColor(app.Palette.Values[position.X][position.Y])
   }
 }

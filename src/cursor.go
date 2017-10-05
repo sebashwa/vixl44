@@ -9,8 +9,10 @@ type Vertex struct {
   Y int
 }
 
-var cursor = Vertex{0,0}
-var visualModeFixpoint = Vertex{0,0}
+type Cursor struct {
+  Position Vertex
+  VisualModeFixpoint Vertex
+}
 
 func drawCursor(x, y int) {
   cursorColor := termbox.ColorWhite
@@ -30,17 +32,19 @@ func drawCursor(x, y int) {
   termbox.SetCell(x + 1, y, ']', cursorColor, backgroundColor)
 }
 
-func drawNormalCursor() {
-  drawCursor(cursor.X, cursor.Y)
+func (cursor Cursor) Draw() {
+  drawCursor(cursor.Position.X, cursor.Position.Y)
 }
 
-func drawVisualBlockCursor() {
-  drawCursor(cursor.X, cursor.Y)
-  drawCursor(visualModeFixpoint.X, visualModeFixpoint.Y)
-  drawCursor(visualModeFixpoint.X, cursor.Y)
-  drawCursor(cursor.X, visualModeFixpoint.Y)
-}
+func (cursor Cursor) DrawBox() {
+  position := cursor.Position
+  fixpoint := cursor.VisualModeFixpoint
 
+  drawCursor(position.X, position.Y)
+  drawCursor(fixpoint.X, fixpoint.Y)
+  drawCursor(fixpoint.X, position.Y)
+  drawCursor(position.X, fixpoint.Y)
+}
 
 func newPosition(oldPosition int, diff int, limit int) int {
   newPosition := oldPosition + diff
@@ -55,64 +59,66 @@ func newPosition(oldPosition int, diff int, limit int) int {
   }
 }
 
-func moveCursor(direction rune, diff int) {
+func (cursor *Cursor) Move(direction rune, diff int) {
   if direction == 'X' {
-    cursor.X = newPosition(cursor.X, diff, app.Canvas.Columns - 1)
-
+    newPosition := newPosition(cursor.Position.X, diff, app.Canvas.Columns - 1)
+    cursor.Position.X = newPosition
   } else if direction == 'Y' {
-    cursor.Y = newPosition(cursor.Y, diff, app.Canvas.Rows)
+    cursor.Position.Y = newPosition(cursor.Position.Y, diff, app.Canvas.Rows)
   }
 
   if app.CurrentMode != modes.VisualBlockMode {
-    visualModeFixpoint.X = cursor.X
-    visualModeFixpoint.Y = cursor.Y
+    cursor.VisualModeFixpoint.X = cursor.Position.X
+    cursor.VisualModeFixpoint.Y = cursor.Position.Y
   }
 }
 
-func jumpToEndOfLine() {
-  cursor.X = app.Canvas.Columns - 2
+func (cursor *Cursor) JumpToEndOfLine() {
+  diff := (app.Canvas.Columns - 2) - cursor.Position.X
+  cursor.Move('X', diff)
 }
 
-func jumpToBeginningOfLine() {
-  cursor.X = 0
+func (cursor *Cursor) JumpToBeginningOfLine() {
+  cursor.Move('X', -cursor.Position.X)
 }
 
-func jumpToFirstLine() {
-  cursor.Y = 0
+func (cursor *Cursor) JumpToFirstLine() {
+  cursor.Move('Y', -cursor.Position.Y)
 }
 
-func jumpToLastLine() {
-  cursor.Y = app.Canvas.Rows - 1
+func (cursor *Cursor) JumpToLastLine() {
+  diff := (app.Canvas.Rows - 1) - cursor.Position.Y
+  cursor.Move('Y', diff)
 }
 
 func cursorMovementKeyMapping(Ch rune, Key termbox.Key) {
   switch Ch {
   case '0':
-    jumpToBeginningOfLine()
+    app.Cursor.JumpToBeginningOfLine()
   case '$':
-    jumpToEndOfLine()
+    app.Cursor.JumpToEndOfLine()
   case 'b':
-    moveCursor('X', -10)
+    app.Cursor.Move('X', -10)
   case 'g':
-    jumpToFirstLine()
+    app.Cursor.JumpToFirstLine()
   case 'G':
-    jumpToLastLine()
+    app.Cursor.JumpToLastLine()
   case 'h':
-    moveCursor('X', -2)
+    app.Cursor.Move('X', -2)
   case 'j':
-    moveCursor('Y', 1)
+    app.Cursor.Move('Y', 1)
   case 'k':
-    moveCursor('Y', -1)
+    app.Cursor.Move('Y', -1)
   case 'l':
-    moveCursor('X', +2)
+    app.Cursor.Move('X', +2)
   case 'w':
-    moveCursor('X', +10)
+    app.Cursor.Move('X', +10)
   }
 
   switch Key {
   case termbox.KeyCtrlU:
-    moveCursor('Y', -5)
+    app.Cursor.Move('Y', -5)
   case termbox.KeyCtrlD:
-    moveCursor('Y', +5,)
+    app.Cursor.Move('Y', +5,)
   }
 }

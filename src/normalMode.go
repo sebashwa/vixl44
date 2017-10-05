@@ -5,8 +5,10 @@ import (
 )
 
 func fillPixel(color termbox.Attribute) {
-  app.Canvas.Values[cursor.X][cursor.Y] = color
-  app.Canvas.Values[cursor.X + 1][cursor.Y] = color
+  position := app.Cursor.Position
+
+  app.Canvas.Values[position.X][position.Y] = color
+  app.Canvas.Values[position.X + 1][position.Y] = color
 }
 
 func normalModeKeyMapping(Ch rune, Key termbox.Key) {
@@ -14,7 +16,9 @@ func normalModeKeyMapping(Ch rune, Key termbox.Key) {
   case 'x':
     fillPixel(termbox.ColorDefault)
   case 's':
-    app.SelectedColor = app.Canvas.Values[cursor.X][cursor.Y]
+    position := app.Cursor.Position
+
+    app.SelectedColor = app.Canvas.Values[position.X][position.Y]
   }
   switch Key {
   case termbox.KeySpace, termbox.KeyEnter:

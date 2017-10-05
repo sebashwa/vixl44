@@ -13,8 +13,11 @@ func rangeLimits(a, b int) (int, int) {
 }
 
 func fillArea(color termbox.Attribute) {
-  xMin, xMax := rangeLimits(visualModeFixpoint.X, cursor.X)
-  yMin, yMax := rangeLimits(visualModeFixpoint.Y, cursor.Y)
+  position := app.Cursor.Position
+  fixpoint := app.Cursor.VisualModeFixpoint
+
+  xMin, xMax := rangeLimits(fixpoint.X, position.X)
+  yMin, yMax := rangeLimits(fixpoint.Y, position.Y)
 
   for x := xMin; x <= xMax; x++ {
     for y := yMin; y <= yMax; y++ {

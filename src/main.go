@@ -1,7 +1,10 @@
 package main
 
 import (
+  "os"
   "flag"
+  "io/ioutil"
+  "encoding/json"
   "github.com/nsf/termbox-go"
 )
 
@@ -16,10 +19,10 @@ type AppState struct {
   Canvas Canvas
   Palette Palette
   StatusBar StatusBar
-  CommandBar CommandBar
   Cursor Cursor
   SelectedColor termbox.Attribute
   CurrentMode string
+  Filename string
 }
 
 var modes Modes
@@ -41,7 +44,7 @@ func draw() {
   }
 
   if app.CurrentMode == modes.CommandMode {
-    app.CommandBar.Draw()
+    app.StatusBar.DrawCommand()
   } else {
     app.StatusBar.Draw()
   }
@@ -55,8 +58,8 @@ loop:
 		switch event := termbox.PollEvent(); event.Type {
 		case termbox.EventKey:
       if app.CurrentMode == modes.CommandMode {
-        quit := commandModeKeyMapping(event.Ch, event.Key)
-        if quit { break loop }
+        shouldQuit := commandModeKeyMapping(event.Ch, event.Key)
+        if shouldQuit { break loop }
       } else {
         cursorMovementKeyMapping(event.Ch, event.Key)
         statusBarKeyMapping(event.Ch)
@@ -79,24 +82,59 @@ loop:
 	}
 }
 
-func parseFlags() (int, int) {
+func parseFlags() (string, int, int) {
   var rows, columns int
+  filename := ""
 
-  flag.IntVar(&rows, "rows", 20, "number of rows on your canvas, 0 means full height")
-  flag.IntVar(&columns, "cols", 20, "number of columns on your canvas, 0 means full width")
+  if len(os.Args[1:]) > 0 {
+    firstArg := os.Args[1]
+
+    if rune(firstArg[0]) != '-' {
+      filename = firstArg
+    }
+  }
+
+  for _, value := range([]string{"rows", "r"}) {
+    flag.IntVar(&rows, value, 20, "number of rows, 0 means full height, ignored if filename given")
+  }
+
+  for _, value := range([]string{"cols", "c"}) {
+  flag.IntVar(&columns, value, 20, "number of columns, 0 means full width, ignored if filename given")
+  }
+
+  for _, value := range([]string{"f", "filename"}) {
+    flag.StringVar(&filename, value, filename, "the name of your file")
+  }
 
   flag.Parse()
 
-  return rows, columns
+  return filename, rows, columns
+}
+
+func openOrCreateCanvas(filename string, columns, rows int) Canvas {
+  var canvas Canvas
+
+  if _, err := os.Stat(filename); err == nil {
+    if data, err := ioutil.ReadFile(filename); err == nil {
+      if err := json.Unmarshal(data, &canvas); err != nil {
+        panic(err)
+      }
+    } else {
+      panic(err)
+    }
+  } else {
+    canvas = createCanvas(columns, rows)
+  }
+
+  return canvas
 }
 
 func initializeApp() {
-  rows, columns := parseFlags()
+  filename, canvasRows, canvasColumns := parseFlags()
 
-  canvas := createCanvas(rows, columns)
+  canvas := openOrCreateCanvas(filename, canvasRows, canvasColumns)
   palette := createPalette(canvas.Rows, canvas.Columns)
-  statusBar := StatusBar{canvas.Rows}
-  commandBar := CommandBar{canvas.Rows, make([]rune, 0)}
+  statusBar := StatusBar{canvas.Rows, "", "", ""}
   cursor := Cursor{}
   selectedColor := termbox.Attribute(256)
   currentMode := modes.NormalMode
@@ -105,10 +143,10 @@ func initializeApp() {
     canvas,
     palette,
     statusBar,
-    commandBar,
     cursor,
     selectedColor,
     currentMode,
+    filename,
   }
 }
 

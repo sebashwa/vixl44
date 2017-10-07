@@ -24,7 +24,7 @@ func drawCursor(x, y int) {
     backgroundColor = app.Canvas.Values[x][y]
   }
 
-  if backgroundColor == termbox.ColorWhite {
+  if _, exists := app.Palette.LightColors[backgroundColor]; exists {
     cursorColor = termbox.ColorBlack
   }
 

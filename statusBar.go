@@ -13,7 +13,12 @@ type StatusBar struct {
 
 func displayStatus(position int) {
   for i, character := range app.CurrentMode {
-    termbox.SetCell(i, position, character, app.SelectedColor, termbox.ColorDefault)
+    foregroundColor := app.SelectedColor
+    if app.SelectedColor == termbox.Attribute(1) {
+      foregroundColor = termbox.ColorWhite
+    }
+
+    termbox.SetCell(i, position, character, foregroundColor, termbox.ColorDefault)
   }
 
   for x := len(app.CurrentMode) + 1; x < app.Canvas.Columns; x++ {

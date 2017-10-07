@@ -136,7 +136,7 @@ func initializeApp() {
   palette := createPalette(canvas.Rows, canvas.Columns)
   statusBar := StatusBar{canvas.Rows, "", "", ""}
   cursor := Cursor{}
-  selectedColor := termbox.Attribute(256)
+  selectedColor := termbox.Attribute(1)
   currentMode := modes.NormalMode
 
   app = AppState{

@@ -5,9 +5,9 @@ import (
 )
 
 type Canvas struct {
-  Values [][]termbox.Attribute `json:values`
-  Rows int `json:rows`
-  Columns int `json:columns`
+  Values [][]termbox.Attribute `json:"values"`
+  Rows int `json:"rows"`
+  Columns int `json:"columns"`
 }
 
 func (canvas Canvas) Draw() {

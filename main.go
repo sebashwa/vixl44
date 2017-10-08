@@ -8,6 +8,10 @@ import (
   "github.com/nsf/termbox-go"
 )
 
+type File struct {
+  Canvas [][]termbox.Attribute `json:"canvas"`
+}
+
 type Modes struct {
   NormalMode string
   VisualBlockMode string
@@ -99,7 +103,7 @@ func parseFlags() (string, int, int) {
   }
 
   for _, value := range([]string{"cols", "c"}) {
-  flag.IntVar(&columns, value, 20, "number of columns, 0 means full width, ignored if filename given")
+    flag.IntVar(&columns, value, 20, "number of columns, 0 means full width, ignored if filename given")
   }
 
   for _, value := range([]string{"f", "filename"}) {
@@ -112,21 +116,20 @@ func parseFlags() (string, int, int) {
 }
 
 func openOrCreateCanvas(filename string, columns, rows int) Canvas {
-  var canvas Canvas
-
   if _, err := os.Stat(filename); err == nil {
     if data, err := ioutil.ReadFile(filename); err == nil {
-      if err := json.Unmarshal(data, &canvas); err != nil {
+      var file File
+      if err := json.Unmarshal(data, &file); err != nil {
         panic(err)
       }
+
+      return createCanvasFromFileCanvas(file.Canvas)
     } else {
       panic(err)
     }
   } else {
-    canvas = createCanvas(columns, rows)
+    return createCanvas(columns, rows)
   }
-
-  return canvas
 }
 
 func initializeApp() {
@@ -136,7 +139,7 @@ func initializeApp() {
   palette := createPalette(canvas.Rows, canvas.Columns)
   statusBar := StatusBar{canvas.Rows, "", "", ""}
   cursor := Cursor{}
-  selectedColor := termbox.Attribute(1)
+  selectedColor := termbox.Attribute(4)
   currentMode := modes.NormalMode
 
   app = AppState{

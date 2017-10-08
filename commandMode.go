@@ -29,7 +29,7 @@ func writeStateToFile(pathToFilename string) (string, string) {
     return "", "Error: No filename given"
   }
 
-  json, _ := json.Marshal(app.Canvas)
+  json, _ := json.Marshal(File{app.Canvas.ConvertToFileCanvas()})
   err := ioutil.WriteFile(filename, json, 0644)
 
   if err != nil {
@@ -40,15 +40,18 @@ func writeStateToFile(pathToFilename string) (string, string) {
   }
 }
 
-func executeCommand() (bool, string, string) {
+func getCommandElements() (string, []string) {
   commandElements := strings.Split(app.StatusBar.Command, " ")
 
-  command := commandElements[0]
-  arguments := []string{""}
-
   if len(commandElements) > 1 {
-    arguments = commandElements[1:]
+    return commandElements[0], commandElements[1:]
+  } else {
+    return commandElements[0], []string{""}
   }
+}
+
+func executeCommand() (bool, string, string) {
+  command, arguments := getCommandElements()
 
   switch command {
   case "q", "qu", "qui", "quit":
@@ -77,10 +80,10 @@ func commandModeKeyMapping(Ch rune, Key termbox.Key) bool {
   case termbox.KeyEnter:
     shouldQuit, hint, errMsg := executeCommand()
 
-    if shouldQuit {
-      return true
-    } else if errMsg != "" {
+    if errMsg != "" {
       app.StatusBar.Error = errMsg
+    } else if shouldQuit {
+      return true
     } else if hint != "" {
       app.StatusBar.Hint = hint
     }

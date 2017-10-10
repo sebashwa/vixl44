@@ -3,7 +3,10 @@
 Create pixel art inside your terminal using vim movements
 
 ## Installation
-`go get github.com/sebashwa/vixl44`
+[Get go](https://golang.org/dl/), then:
+```
+go get github.com/sebashwa/vixl44
+```
 
 ## Usage
 ```

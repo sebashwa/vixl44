@@ -45,19 +45,19 @@ s       - Select color under the cursor
 c       - Switch to palette mode
 <C-V>   - Switch to visual block mode
 
-PALETTE MODE
-
-<CR>    - Select color
-<Space> - Select color
-<ESC>   - Switch to normal mode
-<C-V>   - Switch to visual block mode
-
 VISUAL BLOCK MODE
 
 <CR>    - Paint color
 <Space> - Paint color
 <ESC>   - Switch to normal mode
 c       - Switch to palette mode
+
+PALETTE MODE
+
+<CR>    - Select color
+<Space> - Select color
+<ESC>   - Switch to normal mode
+<C-V>   - Switch to visual block mode
 ```
 
 ## Commands
@@ -67,3 +67,8 @@ c       - Switch to palette mode
 :wq [FILENAME]<CR> - Write to [FILENAME] and quit
 :q<CR>             - Quit
 ```
+
+## Todo
+- [ ] Implement export to svg
+- [ ] Add a "draw mode"
+- [ ] Make copy/cut&paste possible

@@ -16,6 +16,6 @@ func modeKeyMapping(Ch rune, Key termbox.Key) {
   case ':':
     app.CurrentMode = modes.CommandMode
   case 'c':
-    app.CurrentMode = modes.ColorSelectMode
+    app.CurrentMode = modes.PaletteMode
   }
 }

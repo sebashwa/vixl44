@@ -15,7 +15,7 @@ type File struct {
 type Modes struct {
   NormalMode string
   VisualBlockMode string
-  ColorSelectMode string
+  PaletteMode string
   CommandMode string
 }
 
@@ -35,7 +35,7 @@ var app AppState
 func draw() {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 
-  if app.CurrentMode == modes.ColorSelectMode {
+  if app.CurrentMode == modes.PaletteMode {
     app.Palette.Draw()
   } else {
     app.Canvas.Draw()
@@ -72,8 +72,8 @@ loop:
         switch app.CurrentMode {
         case modes.VisualBlockMode:
           visualBlockModeKeyMapping(event.Ch, event.Key)
-        case modes.ColorSelectMode:
-          colorSelectModeKeyMapping(event.Ch, event.Key)
+        case modes.PaletteMode:
+          paletteModeKeyMapping(event.Ch, event.Key)
         case modes.NormalMode:
           normalModeKeyMapping(event.Ch, event.Key)
         }
@@ -157,7 +157,7 @@ func setModes() {
   allModes := Modes{
     "NORMAL",
     "VISUAL-BLOCK",
-    "COLOR-SELECT",
+    "PALETTE",
     "COMMAND",
   }
 

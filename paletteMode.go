@@ -9,7 +9,7 @@ func selectColor(color termbox.Attribute) {
   app.CurrentMode = modes.NormalMode
 }
 
-func colorSelectModeKeyMapping(Ch rune, Key termbox.Key) {
+func paletteModeKeyMapping(Ch rune, Key termbox.Key) {
   switch Ch {
   case 'q':
     app.CurrentMode = modes.NormalMode

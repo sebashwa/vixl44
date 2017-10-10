@@ -18,7 +18,7 @@ func drawCursor(x, y int) {
   cursorColor := termbox.ColorWhite
   var backgroundColor termbox.Attribute
 
-  if app.CurrentMode == modes.ColorSelectMode {
+  if app.CurrentMode == modes.PaletteMode {
     backgroundColor = app.Palette.Values[x][y]
   } else {
     backgroundColor = app.Canvas.Values[x][y]

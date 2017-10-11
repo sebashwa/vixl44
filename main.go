@@ -6,51 +6,34 @@ import (
   "io/ioutil"
   "encoding/json"
   "github.com/nsf/termbox-go"
+
+  "./drawing"
+  "./keybindings"
+  "./state"
+  "./modes"
+  "./types"
+  "./factory"
 )
-
-type File struct {
-  Canvas [][]termbox.Attribute `json:"canvas"`
-}
-
-type Modes struct {
-  NormalMode string
-  VisualBlockMode string
-  PaletteMode string
-  CommandMode string
-}
-
-type AppState struct {
-  Canvas Canvas
-  Palette Palette
-  StatusBar StatusBar
-  Cursor Cursor
-  SelectedColor termbox.Attribute
-  CurrentMode string
-  Filename string
-}
-
-var modes Modes
-var app AppState
 
 func draw() {
 	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
 
-  if app.CurrentMode == modes.PaletteMode {
-    app.Palette.Draw()
+  if state.CurrentMode == modes.PaletteMode {
+    drawing.DrawPalette()
   } else {
-    app.Canvas.Draw()
+    drawing.DrawCanvas()
   }
 
-  if app.CurrentMode == modes.VisualBlockMode {
-    app.Cursor.DrawBox()
+  if state.CurrentMode == modes.VisualBlockMode {
+    drawing.DrawVisualBlockCursor()
   } else {
-    app.Cursor.Draw()
+    drawing.DrawCursor()
   }
 
-  if app.CurrentMode == modes.CommandMode {
-    app.StatusBar.DrawCommand()
+  if state.CurrentMode == modes.CommandMode {
+    drawing.DrawCommand()
   } else {
-    app.StatusBar.Draw()
+    drawing.DrawStatusBar()
   }
 
 	termbox.Flush()
@@ -61,21 +44,21 @@ loop:
 	for {
 		switch event := termbox.PollEvent(); event.Type {
 		case termbox.EventKey:
-      if app.CurrentMode == modes.CommandMode {
-        shouldQuit := commandModeKeyMapping(event.Ch, event.Key)
+      if state.CurrentMode == modes.CommandMode {
+        shouldQuit := keybindings.CommandMode(event.Ch, event.Key)
         if shouldQuit { break loop }
       } else {
-        cursorMovementKeyMapping(event.Ch, event.Key)
-        statusBarKeyMapping(event.Ch)
-        modeKeyMapping(event.Ch, event.Key)
+        keybindings.CursorMovement(event.Ch, event.Key)
+        keybindings.Common(event.Ch)
+        keybindings.ModeSelection(event.Ch, event.Key)
 
-        switch app.CurrentMode {
+        switch state.CurrentMode {
         case modes.VisualBlockMode:
-          visualBlockModeKeyMapping(event.Ch, event.Key)
+          keybindings.VisualBlockMode(event.Ch, event.Key)
         case modes.PaletteMode:
-          paletteModeKeyMapping(event.Ch, event.Key)
+          keybindings.PaletteMode(event.Ch, event.Key)
         case modes.NormalMode:
-          normalModeKeyMapping(event.Ch, event.Key)
+          keybindings.NormalMode(event.Ch, event.Key)
         }
       }
 
@@ -115,53 +98,37 @@ func parseFlags() (string, int, int) {
   return filename, rows, columns
 }
 
-func openOrCreateCanvas(filename string, columns, rows int) Canvas {
+func openOrCreateCanvas(filename string, columns, rows int) types.Canvas {
   if _, err := os.Stat(filename); err == nil {
     if data, err := ioutil.ReadFile(filename); err == nil {
-      var file File
+      var file types.File
       if err := json.Unmarshal(data, &file); err != nil {
         panic(err)
       }
 
-      return createCanvasFromFileCanvas(file.Canvas)
+      return factory.CreateCanvasFromFileCanvas(file.Canvas)
     } else {
       panic(err)
     }
   } else {
-    return createCanvas(columns, rows)
+    return factory.CreateCanvas(columns, rows)
   }
 }
 
 func initializeApp() {
   filename, canvasRows, canvasColumns := parseFlags()
 
-  canvas := openOrCreateCanvas(filename, canvasRows, canvasColumns)
-  palette := createPalette(canvas.Rows, canvas.Columns)
-  statusBar := StatusBar{canvas.Rows, "", "", ""}
-  cursor := Cursor{}
-  selectedColor := termbox.Attribute(4)
-  currentMode := modes.NormalMode
+  modes.NormalMode = "NORMAL"
+  modes.VisualBlockMode = "VISUAL-BLOCK"
+  modes.PaletteMode = "PALETTE"
+  modes.CommandMode = "COMMAND"
 
-  app = AppState{
-    canvas,
-    palette,
-    statusBar,
-    cursor,
-    selectedColor,
-    currentMode,
-    filename,
-  }
-}
-
-func setModes() {
-  allModes := Modes{
-    "NORMAL",
-    "VISUAL-BLOCK",
-    "PALETTE",
-    "COMMAND",
-  }
-
-  modes = allModes
+  state.Canvas = openOrCreateCanvas(filename, canvasRows, canvasColumns)
+  state.Palette = factory.CreatePalette(state.Canvas.Rows, state.Canvas.Columns)
+  state.StatusBar = types.StatusBar{state.Canvas.Rows, "", "", ""}
+  state.Cursor = types.Cursor{}
+  state.SelectedColor = termbox.Attribute(4)
+  state.CurrentMode = modes.NormalMode
 }
 
 func main() {
@@ -171,7 +138,6 @@ func main() {
 	}
   termbox.SetOutputMode(termbox.Output256)
 
-  setModes()
   initializeApp()
 
 	defer termbox.Close()

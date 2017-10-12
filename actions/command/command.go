@@ -5,8 +5,8 @@ import (
   "io/ioutil"
   "encoding/json"
 
-  "../../state"
-  "../../types"
+  "github.com/sebashwa/vixl44/state"
+  "github.com/sebashwa/vixl44/types"
 )
 
 func Set(command string) {

@@ -1,8 +1,8 @@
 package cursor
 
 import (
-  "../../modes"
-  "../../state"
+  "github.com/sebashwa/vixl44/modes"
+  "github.com/sebashwa/vixl44/state"
 )
 
 func newPosition(oldPosition int, diff int, limit int) int {

@@ -3,7 +3,7 @@ package state
 import (
   "github.com/nsf/termbox-go"
 
-  "../types"
+  "github.com/sebashwa/vixl44/types"
 )
 
 var Canvas types.Canvas

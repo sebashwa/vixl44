@@ -1,7 +1,7 @@
 package actions
 
 import (
-  "../state"
+  "github.com/sebashwa/vixl44/state"
 )
 
 func SetMode(mode string) {

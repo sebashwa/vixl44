@@ -7,12 +7,12 @@ import (
   "encoding/json"
   "github.com/nsf/termbox-go"
 
-  "./drawing"
-  "./keybindings"
-  "./state"
-  "./modes"
-  "./types"
-  "./factory"
+  "github.com/sebashwa/vixl44/drawing"
+  "github.com/sebashwa/vixl44/keybindings"
+  "github.com/sebashwa/vixl44/state"
+  "github.com/sebashwa/vixl44/modes"
+  "github.com/sebashwa/vixl44/types"
+  "github.com/sebashwa/vixl44/factory"
 )
 
 func draw() {

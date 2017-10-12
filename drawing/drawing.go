@@ -3,8 +3,8 @@ package drawing
 import (
   "github.com/nsf/termbox-go"
 
-  "../state"
-  "../modes"
+  "github.com/sebashwa/vixl44/state"
+  "github.com/sebashwa/vixl44/modes"
 )
 
 func DrawCanvas() {

@@ -3,12 +3,12 @@ package keybindings
 import (
   "github.com/nsf/termbox-go"
 
-  "../modes"
-  "../state"
-  commonActions  "../actions"
-  cursorActions  "../actions/cursor"
-  paintActions   "../actions/paint"
-  commandActions "../actions/command"
+  "github.com/sebashwa/vixl44/modes"
+  "github.com/sebashwa/vixl44/state"
+  commonActions  "github.com/sebashwa/vixl44/actions"
+  cursorActions  "github.com/sebashwa/vixl44/actions/cursor"
+  paintActions   "github.com/sebashwa/vixl44/actions/paint"
+  commandActions "github.com/sebashwa/vixl44/actions/command"
 )
 
 func CursorMovement(Ch rune, Key termbox.Key) {

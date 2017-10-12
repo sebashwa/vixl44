@@ -3,7 +3,7 @@ package factory
 import (
   "github.com/nsf/termbox-go"
 
-  "../types"
+  "github.com/sebashwa/vixl44/types"
 )
 
 func CreatePalette(rows, columns int) types.Palette {

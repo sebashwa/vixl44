@@ -123,8 +123,8 @@ func initializeApp() {
   modes.PaletteMode = "PALETTE"
   modes.CommandMode = "COMMAND"
 
-  state.Canvas = openOrCreateCanvas(filename, canvasRows, canvasColumns)
-  state.Palette = factory.CreatePalette(state.Canvas.Rows, state.Canvas.Columns)
+  state.Canvas = openOrCreateCanvas(filename, canvasColumns, canvasRows)
+  state.Palette = factory.CreatePalette(state.Canvas.Columns, state.Canvas.Rows)
   state.StatusBar = types.StatusBar{
     Position: state.Canvas.Rows,
     Hint: "",

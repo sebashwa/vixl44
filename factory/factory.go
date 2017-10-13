@@ -6,7 +6,7 @@ import (
   "github.com/sebashwa/vixl44/types"
 )
 
-func CreatePalette(rows, columns int) types.Palette {
+func CreatePalette(columns, rows int) types.Palette {
   colorIndex := 1
 
   values := make([][]termbox.Attribute, columns)
@@ -47,8 +47,8 @@ func getLightColors() map[termbox.Attribute]struct{} {
   return colors
 }
 
-func CreateCanvas(rows, columns int) types.Canvas {
-  rows, columns = adjustCanvasSize(rows, columns)
+func CreateCanvas(columns, rows int) types.Canvas {
+  columns, rows = adjustCanvasSize(columns, rows)
 
   values := make([][]termbox.Attribute, columns)
   for x := range(values) {
@@ -59,7 +59,7 @@ func CreateCanvas(rows, columns int) types.Canvas {
 }
 
 func CreateCanvasFromFileCanvas(fileCanvas [][]termbox.Attribute) types.Canvas {
-  appCanvas := CreateCanvas(len(fileCanvas[0]), len(fileCanvas))
+  appCanvas := CreateCanvas(len(fileCanvas), len(fileCanvas[0]))
 
   for x, column := range(fileCanvas) {
     for y := range(column) {
@@ -71,7 +71,7 @@ func CreateCanvasFromFileCanvas(fileCanvas [][]termbox.Attribute) types.Canvas {
   return appCanvas
 }
 
-func adjustCanvasSize(rows, columns int) (int, int) {
+func adjustCanvasSize(columns, rows int) (int, int) {
   if rows < 0 { rows = rows * -1 }
   if columns < 0 { columns = columns * -1 }
 
@@ -81,5 +81,5 @@ func adjustCanvasSize(rows, columns int) (int, int) {
 
   columns = columns * 2
 
-  return rows, columns
+  return columns, rows
 }

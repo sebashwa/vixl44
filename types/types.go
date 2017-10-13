@@ -15,13 +15,13 @@ type Canvas struct {
 }
 
 func (canvas Canvas) ConvertToFileCanvas() [][]termbox.Attribute {
-  fileCanvas := make([][]termbox.Attribute, canvas.Rows)
+  fileCanvas := make([][]termbox.Attribute, canvas.Columns / 2)
 
-  for y := range(fileCanvas) {
-    fileCanvas[y] = make([]termbox.Attribute, canvas.Columns / 2)
+  for x := range(fileCanvas) {
+    fileCanvas[x] = make([]termbox.Attribute, canvas.Rows)
   }
 
-  for y := range(fileCanvas) {
+  for y := range(fileCanvas[0]) {
     for x := 0; x < canvas.Columns; x += 2 {
       fileCanvas[x / 2][y] = canvas.Values[x][y]
     }

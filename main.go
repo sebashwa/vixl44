@@ -129,6 +129,7 @@ func initializeApp() {
   state.Cursor = types.Cursor{}
   state.SelectedColor = termbox.Attribute(4)
   state.CurrentMode = modes.NormalMode
+  state.Filename = filename
 }
 
 func main() {

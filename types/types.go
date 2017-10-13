@@ -1,7 +1,11 @@
 package types
 
 import (
+  "fmt"
+  "strings"
   "github.com/nsf/termbox-go"
+
+  "github.com/sebashwa/vixl44/colors"
 )
 
 type Canvas struct {
@@ -24,6 +28,37 @@ func (canvas Canvas) ConvertToFileCanvas() [][]termbox.Attribute {
   }
 
   return fileCanvas
+}
+
+func (canvas Canvas) ConvertToSvg() string {
+  fileCanvas := canvas.ConvertToFileCanvas()
+  template := `<?xml version="1.0" standalone="no"?>
+<svg viewBox="0 0 %v %v" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="%vpx" height="%vpx">
+  %s
+</svg>
+`
+
+  var rects []string
+  for x, col := range(fileCanvas) {
+    for y := range(col) {
+
+      rect := `<rect x="%v" y="%v" style="fill: %s;" width="1" height="1" />`
+      fill := colors.MappingToHex[int(fileCanvas[x][y])]
+      rects = append(rects, fmt.Sprintf(rect, x, y, fill))
+    }
+  }
+  viewBoxX := len(fileCanvas)
+  viewBoxY := len(fileCanvas[0])
+
+  return fmt.Sprintf(
+    template,
+    viewBoxX,
+    viewBoxY,
+    viewBoxX * 10,
+    viewBoxY * 10,
+    strings.Join(rects, `
+  `),
+  )
 }
 
 type Palette struct {

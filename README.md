@@ -1,14 +1,15 @@
 ![Logo](logo.svg)
 
-Create pixel art inside your terminal using vim movements
-
 # Installation
+
 [Get go](https://golang.org/dl/), then:
+
 ```
 go get github.com/sebashwa/vixl44
 ```
 
 # Usage
+
 ```
 ~/go/bin/vixl44 [FILENAME] [OPTIONS]
 
@@ -63,12 +64,14 @@ PALETTE MODE
 # Commands
 
 ```
-:w [FILENAME]<CR>  - Write to [FILENAME] 
-:wq [FILENAME]<CR> - Write to [FILENAME] and quit
-:q<CR>             - Quit
+:w FILENAME<CR>   - Write to FILENAME
+:wq FILENAME<CR>  - Write to FILENAME and quit
+:exp FILENAME<CR> - Export to FILENAME ([SVG](https://developer.mozilla.org/en-US/docs/Web/SVG))
+:q<CR>            - Quit
 ```
 
 # Todo
-- [ ] Implement export to svg
+
+- [x] Implement export to SVG
 - [ ] Add a "draw mode"
 - [ ] Make copy/cut&paste possible

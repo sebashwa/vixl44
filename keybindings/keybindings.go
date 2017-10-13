@@ -92,10 +92,10 @@ func CommandMode(Ch rune, Key termbox.Key) bool {
   case termbox.KeySpace:
     commandActions.Append(' ')
   case termbox.KeyEnter:
-    shouldQuit, hint, errMsg := commandActions.Execute()
+    shouldQuit, hint, err := commandActions.Execute()
 
-    if errMsg != "" {
-      commonActions.SetError(errMsg)
+    if err != nil {
+      commonActions.SetError(err.Error())
     } else if shouldQuit {
       return true
     } else if hint != "" {

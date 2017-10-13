@@ -4,6 +4,7 @@ import (
   "strings"
   "io/ioutil"
   "encoding/json"
+  "errors"
 
   "github.com/sebashwa/vixl44/state"
   "github.com/sebashwa/vixl44/types"
@@ -24,20 +25,23 @@ func Truncate() {
   }
 }
 
-func Execute() (bool, string, string) {
+func Execute() (bool, string, error) {
   command, arguments := getCommandElements()
 
   switch command {
   case "q", "qu", "qui", "quit":
-    return true, "", ""
+    return true, "", nil
   case "w", "wr", "wri", "writ", "write":
-    hint, errMsg := writeStateToFile(arguments[0])
-    return false, hint, errMsg
+    hint, err := writeStateToFile(arguments[0])
+    return false, hint, err
   case "wq":
-    hint, errMsg := writeStateToFile(arguments[0])
-    return true, hint, errMsg
+    hint, err := writeStateToFile(arguments[0])
+    return true, hint, err
+  case "exp", "expo", "expor", "export":
+    hint, err := exportStateToSvg(arguments[0])
+    return false, hint, err
   default:
-    return false, "", ""
+    return false, "", nil
   }
 }
 
@@ -51,25 +55,45 @@ func getCommandElements() (string, []string) {
   }
 }
 
-func writeStateToFile(pathToFilename string) (string, string) {
-  var filename string
-
-  if pathToFilename != "" {
-    filename = pathToFilename
+func getFilename(filename string) (string, error) {
+  if filename != "" {
+    return filename, nil
   } else if state.Filename != "" {
-    filename = state.Filename
+    return state.Filename, nil
   } else {
-    return "", "Error: No filename given"
+    return "", errors.New("Error: No filename given")
   }
+}
 
-  json, _ := json.Marshal(types.File{state.Canvas.ConvertToFileCanvas()})
-  err := ioutil.WriteFile(filename, json, 0644)
+func writeStateToFile(pathToFilename string) (string, error) {
+  filename, err := getFilename(pathToFilename)
 
   if err != nil {
-    return "", "Error: " + err.Error()
+    return "", err
+  }
+
+  json, _ := json.Marshal(types.File{Canvas: state.Canvas.ConvertToFileCanvas()})
+  err = ioutil.WriteFile(filename, json, 0644)
+
+  if err != nil {
+    return "", errors.New("Error: " + err.Error())
   } else {
     state.Filename = filename
-    return "Written file to " + filename, ""
+    return "Written file to " + filename, nil
+  }
+}
+
+func exportStateToSvg(filename string) (string, error) {
+  if filename == "" {
+    return "", errors.New("Error: No filename given")
+  }
+
+  err := ioutil.WriteFile(filename, []byte(state.Canvas.ConvertToSvg()), 0644)
+
+  if err != nil {
+    return "", errors.New("Error: " + err.Error())
+  } else {
+    return "Exported file to " + filename, nil
   }
 }
 

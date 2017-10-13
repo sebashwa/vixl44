@@ -26,7 +26,7 @@ loop:
     }
   }
 
-  return types.Palette{values, getLightColors()}
+  return types.Palette{Values: values, LightColors: getLightColors()}
 }
 
 func getLightColors() map[termbox.Attribute]struct{} {
@@ -55,7 +55,7 @@ func CreateCanvas(rows, columns int) types.Canvas {
     values[x] = make([]termbox.Attribute, rows)
   }
 
-  return types.Canvas{values, rows, columns}
+  return types.Canvas{Values: values, Rows: rows, Columns: columns}
 }
 
 func CreateCanvasFromFileCanvas(fileCanvas [][]termbox.Attribute) types.Canvas {

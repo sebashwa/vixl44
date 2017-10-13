@@ -69,7 +69,7 @@ loop:
 	}
 }
 
-func parseFlags() (string, int, int) {
+func parseArguments() (string, int, int) {
   var rows, columns int
   filename := ""
 
@@ -116,7 +116,7 @@ func openOrCreateCanvas(filename string, columns, rows int) types.Canvas {
 }
 
 func initializeApp() {
-  filename, canvasRows, canvasColumns := parseFlags()
+  filename, canvasRows, canvasColumns := parseArguments()
 
   modes.NormalMode = "NORMAL"
   modes.VisualBlockMode = "VISUAL-BLOCK"
@@ -125,7 +125,12 @@ func initializeApp() {
 
   state.Canvas = openOrCreateCanvas(filename, canvasRows, canvasColumns)
   state.Palette = factory.CreatePalette(state.Canvas.Rows, state.Canvas.Columns)
-  state.StatusBar = types.StatusBar{state.Canvas.Rows, "", "", ""}
+  state.StatusBar = types.StatusBar{
+    Position: state.Canvas.Rows,
+    Hint: "",
+    Error: "",
+    Command: "",
+  }
   state.Cursor = types.Cursor{}
   state.SelectedColor = termbox.Attribute(4)
   state.CurrentMode = modes.NormalMode

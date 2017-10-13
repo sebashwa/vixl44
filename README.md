@@ -11,7 +11,7 @@ go get github.com/sebashwa/vixl44
 # Usage
 
 ```
-~/go/bin/vixl44 [FILENAME] [OPTIONS]
+~/go/bin/vixl44 [OPTIONS] [FILENAME]
 
 FILENAME
 
@@ -20,11 +20,9 @@ FILENAME
 OPTIONS
 
 -c, --cols
-    number of columns, 0 means full width, ignored if filename given (default 20)
+    number of columns, default is 20, 0 means full width, ignored if name of existing file given
 -r, --rows
-    number of rows, 0 means full height, ignored if filename given (default 20)
--f, --filename
-    the name of your file
+    number of rows, default is 20, 0 means full height, ignored if name of existing file given
 ```
 
 # Key bindings

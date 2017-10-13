@@ -71,31 +71,18 @@ loop:
 
 func parseArguments() (string, int, int) {
   var rows, columns int
-  filename := ""
-
-  if len(os.Args[1:]) > 0 {
-    firstArg := os.Args[1]
-
-    if rune(firstArg[0]) != '-' {
-      filename = firstArg
-    }
-  }
 
   for _, value := range([]string{"rows", "r"}) {
-    flag.IntVar(&rows, value, 20, "number of rows, 0 means full height, ignored if filename given")
+    flag.IntVar(&rows, value, 20, "number of rows, default is 20, 0 means full height, ignored if name of existing file given")
   }
 
   for _, value := range([]string{"cols", "c"}) {
-    flag.IntVar(&columns, value, 20, "number of columns, 0 means full width, ignored if filename given")
-  }
-
-  for _, value := range([]string{"f", "filename"}) {
-    flag.StringVar(&filename, value, filename, "the name of your file")
+    flag.IntVar(&columns, value, 20, "number of columns, default is 20, 0 means full width, ignored if name of existing file given")
   }
 
   flag.Parse()
 
-  return filename, rows, columns
+  return flag.Arg(0), rows, columns
 }
 
 func openOrCreateCanvas(filename string, columns, rows int) types.Canvas {
@@ -150,5 +137,6 @@ func main() {
   termbox.HideCursor()
 
   draw()
+
   pollEvents()
 }

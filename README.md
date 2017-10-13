@@ -66,12 +66,13 @@ PALETTE MODE
 ```
 :w FILENAME<CR>   - Write to FILENAME
 :wq FILENAME<CR>  - Write to FILENAME and quit
-:exp FILENAME<CR> - Export to FILENAME ([SVG](https://developer.mozilla.org/en-US/docs/Web/SVG))
+:exp FILENAME<CR> - Export to FILENAME (SVG)
 :q<CR>            - Quit
 ```
 
 # Todo
 
 - [x] Implement export to SVG
-- [ ] Add a "draw mode"
-- [ ] Make copy/cut&paste possible
+- [ ] Implement undo
+- [ ] Make copy/cut & paste possible
+- [ ] Add recording of movements

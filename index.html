@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>vixl44 gallery</title>
+    <style>
+      body {
+        margin: 0;
+        background-image: url(assets/background.svg);
+      }
+
+      .main-container {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .headline {
+        width: 260px;
+        margin-bottom: 3em;
+      }
+
+      .images-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .image {
+        margin: 0 1em;
+      }
+
+      @media (min-width: 800px) {
+        .main-container {
+          margin: 0 10%;
+        }
+
+        .headline {
+          width: 100%;
+        }
+      };
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <img class="headline" src="assets/headline.svg" alt="headline" height="240" />
+      <div class="images-container">
+        <img class="image" src="assets/uniduck.svg" alt="uniduck" height="200" />
+        <img class="image" src="assets/logo.svg" alt="logo" height="200" />
+      </div>
+    </div>
+  </body>
+</html>

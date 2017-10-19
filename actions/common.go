@@ -19,3 +19,18 @@ func SetHint(message string) {
 func SetCommand(command string) {
   state.StatusBar.Command = command
 }
+
+func updateCanvasFromHistory(err error) {
+  state.Canvas.Values = state.History.GetCurrentCanvasValuesCopy()
+  if err != nil {
+    state.StatusBar.Error = err.Error()
+  }
+}
+
+func Undo() {
+  updateCanvasFromHistory(state.History.Undo())
+}
+
+func Redo() {
+  updateCanvasFromHistory(state.History.Redo())
+}

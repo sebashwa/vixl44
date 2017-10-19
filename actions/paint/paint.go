@@ -34,6 +34,8 @@ func FillPixel(color termbox.Attribute) {
 
   state.Canvas.Values[position.X][position.Y] = color
   state.Canvas.Values[position.X + 1][position.Y] = color
+
+  state.History.AddCanvasState(state.Canvas.GetValuesCopy())
 }
 
 func FillArea(color termbox.Attribute) {
@@ -49,6 +51,8 @@ func FillArea(color termbox.Attribute) {
       state.Canvas.Values[x + 1][y] = color
     }
   }
+
+  state.History.AddCanvasState(state.Canvas.GetValuesCopy())
 }
 
 func rangeLimits(a, b int) (int, int) {

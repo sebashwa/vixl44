@@ -122,6 +122,9 @@ func initializeApp() {
   state.SelectedColor = termbox.Attribute(4)
   state.CurrentMode = modes.NormalMode
   state.Filename = filename
+
+  state.History = types.History{}
+  state.History.AddCanvasState(state.Canvas.GetValuesCopy())
 }
 
 func main() {

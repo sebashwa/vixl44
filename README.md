@@ -71,6 +71,6 @@ PALETTE MODE
 # Todo
 
 - [x] Implement export to SVG
-- [ ] Implement undo
+- [x] Implement a history
 - [ ] Make copy/cut & paste possible
 - [ ] Add recording of movements

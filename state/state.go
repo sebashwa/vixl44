@@ -13,4 +13,4 @@ var Cursor types.Cursor
 var SelectedColor termbox.Attribute
 var CurrentMode string
 var Filename string
-
+var History types.History

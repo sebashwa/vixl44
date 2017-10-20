@@ -15,9 +15,9 @@ func CreatePalette(columns, rows int) types.Palette {
   }
 
 loop:
-  for y := range(values) {
+  for y := 0; y < rows; y += 1 {
     for x := 0; x < columns; x += 2 {
-      if colorIndex > 256 {
+      if colorIndex > rows * columns || colorIndex > 256 {
         break loop
       }
       values[x][y] = termbox.Attribute(colorIndex)

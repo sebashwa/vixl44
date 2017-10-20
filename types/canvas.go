@@ -94,18 +94,16 @@ func (canvas Canvas) ConvertToPng() ([]byte, error) {
 
 			cur := int(fileCanvas[x][y])
 
-			// Hardcoded fix for the first color being transparent
-			if cur == 0 {
-				clr = color.RGBA{0, 0, 0, 0}
-			} else {
+			// Ignore transparent pixels
+			if cur > 0 {
 				clr, err = colorful.Hex(colors.MappingToHex[int(fileCanvas[x][y])])
-			}
 
-			if err != nil {
-				return []byte{}, err
-			}
+				if err != nil {
+					return []byte{}, err
+				}
 
-			m.Set(x, y, clr)
+				m.Set(x, y, clr)
+			}
 		}
 	}
 

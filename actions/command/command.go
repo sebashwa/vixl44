@@ -38,7 +38,7 @@ func Execute() (bool, string, error) {
 		hint, err := writeStateToFile(arguments[0])
 		return true, hint, err
 	case "exp", "expo", "expor", "export":
-		hint, err := exportStateToSvg(arguments[0])
+		hint, err := exportStateToImage(arguments[0])
 		return false, hint, err
 	default:
 		return false, "", nil
@@ -83,13 +83,23 @@ func writeStateToFile(pathToFilename string) (string, error) {
 	}
 }
 
-func exportStateToSvg(filename string) (string, error) {
+func exportStateToImage(filename string) (string, error) {
 	if filename == "" {
 		return "", errors.New("Error: No filename given")
 	}
 
-	//err := ioutil.WriteFile(filename, []byte(state.Canvas.ConvertToSvg()), 0644)
-	err := ioutil.WriteFile(filename, []byte(state.Canvas.ConvertToPng()), 0644)
+	var err error
+
+	if strings.Contains(filename, "svg") {
+		err = ioutil.WriteFile(filename, []byte(state.Canvas.ConvertToSvg()), 0644)
+	} else if strings.Contains(filename, "png") {
+		m, err := state.Canvas.ConvertToPng()
+		if err != nil {
+			return "", errors.New("Error: " + err.Error())
+		}
+
+		err = ioutil.WriteFile(filename, m, 0644)
+	}
 
 	if err != nil {
 		return "", errors.New("Error: " + err.Error())

@@ -2,12 +2,17 @@ package types
 
 import (
 	"fmt"
+	"image"
 	"strings"
 
 	"github.com/nsf/termbox-go"
 
-	"log"
+	"bytes"
+	"image/png"
 
+	"image/color"
+
+	"github.com/lucasb-eyer/go-colorful"
 	"github.com/sebashwa/vixl44/colors"
 )
 
@@ -76,8 +81,39 @@ func (canvas Canvas) ConvertToSvg() string {
 	)
 }
 
-func (canvas Canvas) ConvertToPng() string {
+func (canvas Canvas) ConvertToPng() ([]byte, error) {
 	fileCanvas := canvas.ConvertToFileCanvas()
-	log.Printf("%+v", fileCanvas)
-	// m := image.NewRGBA(image.Rect(0, 0, len(canvas.Columns), len(canvas.Rows)))
+	viewBoxX := len(fileCanvas)
+	viewBoxY := len(fileCanvas[0])
+	m := image.NewRGBA(image.Rect(0, 0, viewBoxX, viewBoxY))
+
+	for x, col := range fileCanvas {
+		for y := range col {
+			var err error
+			var clr color.Color
+
+			cur := int(fileCanvas[x][y])
+
+			// Hardcoded fix for the first color being transparent
+			if cur == 0 {
+				clr = color.RGBA{0, 0, 0, 0}
+			} else {
+				clr, err = colorful.Hex(colors.MappingToHex[int(fileCanvas[x][y])])
+			}
+
+			if err != nil {
+				return []byte{}, err
+			}
+
+			m.Set(x, y, clr)
+		}
+	}
+
+	buf := new(bytes.Buffer)
+	err := png.Encode(buf, m)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	return buf.Bytes(), nil
 }

@@ -41,6 +41,8 @@ NORMAL MODE
 s       - Select color under the cursor
 <CR>    - Paint color
 <Space> - Paint color
+u       - Undo change
+<C-R>   - Redo change
 c       - Switch to palette mode
 <C-V>   - Switch to visual block mode
 

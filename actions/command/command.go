@@ -61,7 +61,7 @@ func getFilename(filename string) (string, error) {
   } else if state.Filename != "" {
     return state.Filename, nil
   } else {
-    return "", errors.New("Error: No filename given")
+    return "", errors.New("No filename given")
   }
 }
 
@@ -76,7 +76,7 @@ func writeStateToFile(pathToFilename string) (string, error) {
   err = ioutil.WriteFile(filename, json, 0644)
 
   if err != nil {
-    return "", errors.New("Error: " + err.Error())
+    return "", errors.New(err.Error())
   } else {
     state.Filename = filename
     return "Written file to " + filename, nil
@@ -85,27 +85,33 @@ func writeStateToFile(pathToFilename string) (string, error) {
 
 func exportStateToImage(filename string) (string, error) {
   if filename == "" {
-    return "", errors.New("Error: No filename given")
+    return "", errors.New("No filename given")
   }
 
   var err error
   var buf []byte
 
-  if strings.Contains(filename, "svg") {
+  filenameElements := strings.Split(filename, ".")
+  extension := filenameElements[len(filenameElements) -1]
+
+  switch extension {
+  case "svg":
     buf, err = state.Canvas.ConvertToSvg()
-  } else if strings.Contains(filename, "png") {
+  case "png":
     buf, err = state.Canvas.ConvertToPng()
+  default:
+    err = errors.New("Add .svg or .png as extension")
   }
 
   if err != nil {
-    return "", errors.New("Error: " + err.Error())
+    return "", errors.New(err.Error())
   }
 
   err = ioutil.WriteFile(filename, buf, 0644)
 
   if err != nil {
-    return "", errors.New("Error: " + err.Error())
-  } else {
-    return "Exported file to " + filename, nil
+    return "", errors.New(err.Error())
   }
+
+  return "Exported file to " + filename, nil
 }

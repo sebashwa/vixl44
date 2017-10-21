@@ -87,24 +87,28 @@ func (canvas Canvas) ConvertToSvg() ([]byte, error) {
   return []byte(svg), nil
 }
 
-func (canvas Canvas) ConvertToPng() ([]byte, error) {
+func (canvas Canvas) ConvertToPng(scaleFactor int) ([]byte, error) {
   fileCanvas := canvas.ConvertToFileCanvas()
-  viewBoxX := len(fileCanvas)
-  viewBoxY := len(fileCanvas[0])
+  viewBoxX := len(fileCanvas) * scaleFactor
+  viewBoxY := len(fileCanvas[0]) * scaleFactor
   rgbaCanvas := image.NewRGBA(image.Rect(0, 0, viewBoxX, viewBoxY))
 
   for x, column := range fileCanvas {
     for y := range column {
-      currentColorInt := fileCanvas[x][y]
+      currentColor := fileCanvas[x][y]
 
-      if currentColorInt > 0 {
-        fill, err := colors.MapTermboxColorToColor(currentColorInt)
+      if currentColor > 0 {
+        fill, err := colors.MapTermboxColorToColor(currentColor)
 
         if err != nil {
           return []byte{}, err
         }
 
-        rgbaCanvas.Set(x, y, fill)
+        for i := 0; i < scaleFactor; i++ {
+          for j := 0; j < scaleFactor; j++ {
+            rgbaCanvas.Set(x * scaleFactor + i, y * scaleFactor + j, fill)
+          }
+        }
       }
     }
   }

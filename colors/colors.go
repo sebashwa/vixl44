@@ -275,7 +275,6 @@ func MapTermboxColorToColor(color termbox.Attribute) (colorful.Color, error) {
   return kolor, nil
 }
 
-
 func IsLightColor(color termbox.Attribute) bool {
   kolor, _ := colorful.Hex(hexPalette[color])
   _, _, brightness := kolor.Hsv()

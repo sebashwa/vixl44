@@ -64,10 +64,11 @@ PALETTE MODE
 # Commands
 
 ```
-:w FILENAME<CR>   - Write to FILENAME
-:wq FILENAME<CR>  - Write to FILENAME and quit
-:exp FILENAME<CR> - Export to FILENAME (SVG or PNG)
-:q<CR>            - Quit
+:w FILENAME<CR>         - Write to FILENAME
+:wq FILENAME<CR>        - Write to FILENAME and quit
+:exp FILENAME.svg<CR>   - Export to FILENAME in SVG format
+:exp FILENAMExN.png<CR> - Export to FILENAME in PNG format with an optional scale factor N
+:q<CR>                  - Quit
 ```
 
 # Todo

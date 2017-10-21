@@ -5,6 +5,7 @@ import (
   "errors"
   "io/ioutil"
   "strings"
+  "strconv"
 
   "github.com/sebashwa/vixl44/state"
   "github.com/sebashwa/vixl44/types"
@@ -98,7 +99,15 @@ func exportStateToImage(filename string) (string, error) {
   case "svg":
     buf, err = state.Canvas.ConvertToSvg()
   case "png":
-    buf, err = state.Canvas.ConvertToPng()
+    scaleFactor := 1
+    filenameAndScaleFactor := strings.Split(filenameElements[0], "x")
+    scaleFactorString := filenameAndScaleFactor[len(filenameAndScaleFactor) - 1]
+
+    if parsedFactor, err := strconv.Atoi(scaleFactorString); err == nil {
+      scaleFactor = parsedFactor
+    }
+
+    buf, err = state.Canvas.ConvertToPng(scaleFactor)
   default:
     err = errors.New("Add .svg or .png as extension")
   }

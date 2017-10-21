@@ -6,7 +6,6 @@ import (
 
 type Palette struct {
   Values [][]termbox.Attribute
-  LightColors map[termbox.Attribute]struct{}
 }
 
 type StatusBar struct {

@@ -5,6 +5,7 @@ import (
 
   "github.com/sebashwa/vixl44/state"
   "github.com/sebashwa/vixl44/modes"
+  "github.com/sebashwa/vixl44/colors"
 )
 
 func DrawCanvas() {
@@ -91,7 +92,7 @@ func drawCursor(x, y int) {
     backgroundColor = state.Canvas.Values[x][y]
   }
 
-  if _, exists := state.Palette.LightColors[backgroundColor]; exists {
+  if colors.IsLightColor(backgroundColor) {
     cursorColor = termbox.ColorBlack
   }
 

@@ -57,11 +57,11 @@ func (canvas Canvas) ConvertToSvg() ([]byte, error) {
   for x, col := range fileCanvas {
     for y := range col {
 
-      currentColor := int(fileCanvas[x][y])
+      currentColor := fileCanvas[x][y]
 
       if currentColor > 0 {
         rect := `<rect x="%v" y="%v" style="fill: %s;" width="1" height="1" />`
-        fill, err := colors.MapIntToColor(currentColor)
+        fill, err := colors.MapTermboxColorToColor(currentColor)
 
         if err != nil {
           return []byte{}, err
@@ -95,10 +95,10 @@ func (canvas Canvas) ConvertToPng() ([]byte, error) {
 
   for x, column := range fileCanvas {
     for y := range column {
-      currentColorInt := int(fileCanvas[x][y])
+      currentColorInt := fileCanvas[x][y]
 
       if currentColorInt > 0 {
-        fill, err := colors.MapIntToColor(currentColorInt)
+        fill, err := colors.MapTermboxColorToColor(currentColorInt)
 
         if err != nil {
           return []byte{}, err

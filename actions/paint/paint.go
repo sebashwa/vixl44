@@ -38,6 +38,14 @@ func FillPixel(color termbox.Attribute) {
   state.History.AddCanvasState(state.Canvas.GetValuesCopy())
 }
 
+func rangeLimits(a, b int) (int, int) {
+  if a > b {
+    return b, a
+  }
+
+  return a, b
+}
+
 func FillArea(color termbox.Attribute) {
   position := state.Cursor.Position
   fixpoint := state.Cursor.VisualModeFixpoint
@@ -80,13 +88,6 @@ func FloodFill() {
   y := state.Cursor.Position.Y
 
   floodFill(x, y, state.Canvas.Values[x][y], state.SelectedColor)
-}
-
-func rangeLimits(a, b int) (int, int) {
-  if a > b {
-    return b, a
-  }
-
-  return a, b
+  state.History.AddCanvasState(state.Canvas.GetValuesCopy())
 }
 

@@ -1,4 +1,4 @@
-![Logo](logo.svg)
+![Logo](assets/logo.png)
 
 # Installation
 

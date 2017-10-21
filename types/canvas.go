@@ -1,18 +1,13 @@
 package types
 
 import (
+  "bytes"
   "fmt"
   "image"
+  "image/png"
   "strings"
-
   "github.com/nsf/termbox-go"
 
-  "bytes"
-  "image/png"
-
-  "image/color"
-
-  "github.com/lucasb-eyer/go-colorful"
   "github.com/sebashwa/vixl44/colors"
 )
 
@@ -51,7 +46,7 @@ func (canvas Canvas) ConvertToFileCanvas() [][]termbox.Attribute {
   return fileCanvas
 }
 
-func (canvas Canvas) ConvertToSvg() string {
+func (canvas Canvas) ConvertToSvg() ([]byte, error) {
   fileCanvas := canvas.ConvertToFileCanvas()
   template := `<?xml version="1.0" standalone="no"?>
 <svg viewBox="0 0 %v %v" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="%vpx" height="%vpx">
@@ -62,15 +57,24 @@ func (canvas Canvas) ConvertToSvg() string {
   for x, col := range fileCanvas {
     for y := range col {
 
-      rect := `<rect x="%v" y="%v" style="fill: %s;" width="1" height="1" />`
-      fill := colors.MappingToHex[int(fileCanvas[x][y])]
-      rects = append(rects, fmt.Sprintf(rect, x, y, fill))
+      currentColor := int(fileCanvas[x][y])
+
+      if currentColor > 0 {
+        rect := `<rect x="%v" y="%v" style="fill: %s;" width="1" height="1" />`
+        fill, err := colors.MapIntToColor(currentColor)
+
+        if err != nil {
+          return []byte{}, err
+        }
+
+        rects = append(rects, fmt.Sprintf(rect, x, y, fill.Hex()))
+      }
     }
   }
   viewBoxX := len(fileCanvas)
   viewBoxY := len(fileCanvas[0])
 
-  return fmt.Sprintf(
+  svg := fmt.Sprintf(
     template,
     viewBoxX,
     viewBoxY,
@@ -79,35 +83,35 @@ func (canvas Canvas) ConvertToSvg() string {
     strings.Join(rects, `
   `),
   )
+
+  return []byte(svg), nil
 }
 
 func (canvas Canvas) ConvertToPng() ([]byte, error) {
   fileCanvas := canvas.ConvertToFileCanvas()
   viewBoxX := len(fileCanvas)
   viewBoxY := len(fileCanvas[0])
-  m := image.NewRGBA(image.Rect(0, 0, viewBoxX, viewBoxY))
+  rgbaCanvas := image.NewRGBA(image.Rect(0, 0, viewBoxX, viewBoxY))
 
-  for x, col := range fileCanvas {
-    for y := range col {
-      var err error
-      var clr color.Color
+  for x, column := range fileCanvas {
+    for y := range column {
+      currentColorInt := int(fileCanvas[x][y])
 
-      cur := int(fileCanvas[x][y])
-
-      if cur > 0 {
-        clr, err = colorful.Hex(colors.MappingToHex[int(fileCanvas[x][y])])
+      if currentColorInt > 0 {
+        fill, err := colors.MapIntToColor(currentColorInt)
 
         if err != nil {
           return []byte{}, err
         }
 
-        m.Set(x, y, clr)
+        rgbaCanvas.Set(x, y, fill)
       }
     }
   }
 
   buf := new(bytes.Buffer)
-  err := png.Encode(buf, m)
+  err := png.Encode(buf, rgbaCanvas)
+
   if err != nil {
     return []byte{}, err
   }

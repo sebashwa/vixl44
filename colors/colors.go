@@ -1,7 +1,11 @@
 package colors
 
-var MappingToHex = map[int]string{
-  0: "rgba(0,0,0,0)",
+import (
+  "github.com/lucasb-eyer/go-colorful"
+)
+
+var hexPalette = map[int]string{
+  0: "#000000",
   1: "#000000",
   2: "#800000",
   3: "#008000",
@@ -259,3 +263,15 @@ var MappingToHex = map[int]string{
   255: "#e4e4e4",
   256: "#eeeeee",
 }
+
+func MapIntToColor(colorNumber int) (colorful.Color, error) {
+  kolor, err := colorful.Hex(hexPalette[colorNumber])
+
+  if err != nil {
+    return colorful.Color{0,0,0}, err
+  }
+
+  return kolor, nil
+}
+
+

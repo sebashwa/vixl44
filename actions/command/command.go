@@ -89,17 +89,19 @@ func exportStateToImage(filename string) (string, error) {
   }
 
   var err error
+  var buf []byte
 
   if strings.Contains(filename, "svg") {
-    err = ioutil.WriteFile(filename, []byte(state.Canvas.ConvertToSvg()), 0644)
+    buf, err = state.Canvas.ConvertToSvg()
   } else if strings.Contains(filename, "png") {
-    m, err := state.Canvas.ConvertToPng()
-    if err != nil {
-      return "", errors.New("Error: " + err.Error())
-    }
-
-    err = ioutil.WriteFile(filename, m, 0644)
+    buf, err = state.Canvas.ConvertToPng()
   }
+
+  if err != nil {
+    return "", errors.New("Error: " + err.Error())
+  }
+
+  err = ioutil.WriteFile(filename, buf, 0644)
 
   if err != nil {
     return "", errors.New("Error: " + err.Error())

@@ -55,6 +55,33 @@ func FillArea(color termbox.Attribute) {
   state.History.AddCanvasState(state.Canvas.GetValuesCopy())
 }
 
+func floodFill(x, y int, targetColor termbox.Attribute, replacementColor termbox.Attribute) {
+  if targetColor == replacementColor { return }
+  if state.Canvas.Values[x][y] != targetColor { return }
+
+  state.Canvas.Values[x][y] = replacementColor
+
+  if x > 0 {
+    floodFill(x - 1, y, targetColor, replacementColor)
+  }
+  if x < state.Canvas.Columns - 1 {
+    floodFill(x + 1, y, targetColor, replacementColor)
+  }
+  if y > 0 {
+    floodFill(x, y - 1, targetColor, replacementColor)
+  }
+  if y < state.Canvas.Rows - 1 {
+    floodFill(x, y + 1, targetColor, replacementColor)
+  }
+}
+
+func FloodFill() {
+  x := state.Cursor.Position.X
+  y := state.Cursor.Position.Y
+
+  floodFill(x, y, state.Canvas.Values[x][y], state.SelectedColor)
+}
+
 func rangeLimits(a, b int) (int, int) {
   if a > b {
     return b, a

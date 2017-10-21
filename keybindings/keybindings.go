@@ -61,9 +61,12 @@ func NormalMode(Ch rune, Key termbox.Key) {
     paintActions.FillPixel(termbox.ColorDefault)
   case 's':
     paintActions.SelectColor()
+  case 'f':
+    paintActions.FloodFill()
   case 'u':
     commonActions.Undo()
   }
+
   switch Key {
   case termbox.KeyCtrlR:
     commonActions.Redo()

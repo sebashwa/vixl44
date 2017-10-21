@@ -41,6 +41,7 @@ NORMAL MODE
 s       - Select color under the cursor
 <CR>    - Paint color
 <Space> - Paint color
+f       - Replace color in area ([Flood fill](https://en.wikipedia.org/wiki/Flood_fill))
 u       - Undo change
 <C-R>   - Redo change
 c       - Switch to palette mode
@@ -76,6 +77,6 @@ PALETTE MODE
 - [x] Implement export to SVG
 - [x] Implement export to PNG
 - [x] Implement a history
-- [ ] Implement [Flood fill](https://en.wikipedia.org/wiki/Flood_fill)
+- [x] Implement [Flood fill](https://en.wikipedia.org/wiki/Flood_fill)
 - [ ] Make copy/cut & paste possible
 - [ ] Add recording of movements

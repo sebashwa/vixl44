@@ -66,13 +66,14 @@ PALETTE MODE
 ```
 :w FILENAME<CR>   - Write to FILENAME
 :wq FILENAME<CR>  - Write to FILENAME and quit
-:exp FILENAME<CR> - Export to FILENAME (SVG)
+:exp FILENAME<CR> - Export to FILENAME (SVG or PNG)
 :q<CR>            - Quit
 ```
 
 # Todo
 
 - [x] Implement export to SVG
+- [x] Implement export to PNG
 - [x] Implement a history
 - [ ] Make copy/cut & paste possible
 - [ ] Add recording of movements

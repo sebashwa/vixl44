@@ -23,7 +23,7 @@ func SelectColor() {
   position := state.Cursor.Position
 
   if state.CurrentMode == modes.PaletteMode {
-    state.SelectedColor = state.Palette.Values[position.X][position.Y]
+    state.SelectedColor = state.Palette[position.X][position.Y]
   } else {
     state.SelectedColor = state.Canvas.Values[position.X][position.Y]
   }

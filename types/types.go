@@ -4,9 +4,7 @@ import (
   "github.com/nsf/termbox-go"
 )
 
-type Palette struct {
-  Values [][]termbox.Attribute
-}
+type Palette [][]termbox.Attribute
 
 type StatusBar struct {
   Position int

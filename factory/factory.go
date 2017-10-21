@@ -26,7 +26,7 @@ loop:
     }
   }
 
-  return types.Palette{Values: values}
+  return values
 }
 
 func CreateCanvas(columns, rows int) types.Canvas {

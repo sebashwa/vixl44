@@ -75,5 +75,6 @@ PALETTE MODE
 - [x] Implement export to SVG
 - [x] Implement export to PNG
 - [x] Implement a history
+- [ ] Implement [Flood fill](https://en.wikipedia.org/wiki/Flood_fill)
 - [ ] Make copy/cut & paste possible
 - [ ] Add recording of movements

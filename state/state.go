@@ -14,3 +14,4 @@ var SelectedColor termbox.Attribute
 var CurrentMode string
 var Filename string
 var History types.History
+var YankBuffer types.YankBuffer

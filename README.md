@@ -44,6 +44,7 @@ s       - Select color under the cursor
 f       - Replace color in area (Flood fill)
 u       - Undo change
 <C-R>   - Redo change
+p       - Paste from buffer
 c       - Switch to palette mode
 <C-V>   - Switch to visual block mode
 
@@ -51,6 +52,8 @@ VISUAL BLOCK MODE
 
 <CR>    - Paint color
 <Space> - Paint color
+x, d    - Cut area
+y       - Copy area
 <ESC>   - Switch to normal mode
 c       - Switch to palette mode
 
@@ -78,5 +81,5 @@ PALETTE MODE
 - [x] Implement export to PNG
 - [x] Implement a history
 - [x] Implement [Flood fill](https://en.wikipedia.org/wiki/Flood_fill)
-- [ ] Make copy/cut & paste possible
-- [ ] Add recording of movements
+- [x] Make copy/cut & paste possible
+- [ ] Add export for terminal output

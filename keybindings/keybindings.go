@@ -65,6 +65,8 @@ func NormalMode(Ch rune, Key termbox.Key) {
     paintActions.FloodFill()
   case 'u':
     commonActions.Undo()
+  case 'p':
+    commonActions.Paste()
   }
 
   switch Key {
@@ -77,10 +79,14 @@ func NormalMode(Ch rune, Key termbox.Key) {
 
 func VisualBlockMode(Ch rune, Key termbox.Key) {
   switch Ch {
-  case 'x':
-    paintActions.FillArea(termbox.ColorDefault)
+  case 'y':
+    commonActions.Copy()
+    commonActions.SetMode(modes.NormalMode)
+  case 'd', 'x':
+    commonActions.Cut()
     commonActions.SetMode(modes.NormalMode)
   }
+
   switch Key {
   case termbox.KeySpace, termbox.KeyEnter:
     paintActions.FillArea(state.SelectedColor)

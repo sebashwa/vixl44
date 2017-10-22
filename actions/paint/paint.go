@@ -38,20 +38,8 @@ func FillPixel(color termbox.Attribute) {
   state.History.AddCanvasState(state.Canvas.GetValuesCopy())
 }
 
-func rangeLimits(a, b int) (int, int) {
-  if a > b {
-    return b, a
-  }
-
-  return a, b
-}
-
 func FillArea(color termbox.Attribute) {
-  position := state.Cursor.Position
-  fixpoint := state.Cursor.VisualModeFixpoint
-
-  xMin, xMax := rangeLimits(fixpoint.X, position.X)
-  yMin, yMax := rangeLimits(fixpoint.Y, position.Y)
+  xMin, xMax, yMin, yMax := state.Cursor.GetVisualModeArea()
 
   for x := xMin; x <= xMax; x++ {
     for y := yMin; y <= yMax; y++ {

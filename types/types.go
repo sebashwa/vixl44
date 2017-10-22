@@ -18,11 +18,6 @@ type vertex struct {
   Y int
 }
 
-type Cursor struct {
-  Position vertex
-  VisualModeFixpoint vertex
-}
-
 type File struct {
   Canvas [][]termbox.Attribute `json:"canvas"`
 }

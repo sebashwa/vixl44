@@ -69,14 +69,10 @@ PALETTE MODE
 :wq FILENAME<CR>        - Write to FILENAME and quit
 :exp FILENAME.svg<CR>   - Export to FILENAME in svg format
 :exp FILENAMExN.png<CR> - Export to FILENAME in png format with an optional scale factor N
+:exp FILENAME.ansi<CR>  - Export a ANSI escape sequence to FILENAME (use i.e. cat FILENAME to view it)
 :q<CR>                  - Quit
 ```
 
-# Todo
+# License
 
-- [x] Implement export to SVG
-- [x] Implement export to PNG
-- [x] Implement a history
-- [x] Implement [Flood fill](https://en.wikipedia.org/wiki/Flood_fill)
-- [x] Make copy/cut & paste possible
-- [ ] Add export for terminal output
+This project is free software: You can redistribute it and/or modify it under the terms of the [GNU General Public License](https://www.gnu.org/licenses/gpl.html), either version 3 of the License, or (at your option) any later version.

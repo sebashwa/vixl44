@@ -122,3 +122,25 @@ func (canvas Canvas) ConvertToPng(scaleFactor int) ([]byte, error) {
 
   return buf.Bytes(), nil
 }
+
+func (canvas Canvas) ConvertToANSI() []byte {
+  var buffer bytes.Buffer
+
+  for y := 0; y < canvas.Rows; y++ {
+    for x := 0; x < canvas.Columns; x++ {
+      var stringValue string
+      fill := canvas.Values[x][y]
+
+      if fill == 0 {
+        stringValue = "\x1b[0m "
+      } else {
+        stringValue = fmt.Sprintf("\033[48;5;%vm ", fill - 1)
+      }
+
+      buffer.WriteString(stringValue)
+    }
+    buffer.WriteString("\n")
+  }
+
+  return buffer.Bytes()
+}

@@ -108,8 +108,10 @@ func exportStateToImage(filename string) (string, error) {
     }
 
     buf, err = state.Canvas.ConvertToPng(scaleFactor)
+  case "ansi":
+    buf = state.Canvas.ConvertToANSI()
   default:
-    err = errors.New("Add .svg or .png as extension")
+    err = errors.New("Add .svg / .png / .ansi as extension")
   }
 
   if err != nil {

@@ -38,31 +38,28 @@ b       - Move cursor 5 columns left
 
 NORMAL MODE
 
-s       - Select color under the cursor
-<CR>    - Paint color
-<Space> - Paint color
-f       - Replace color in area (Flood fill)
-u       - Undo change
-<C-R>   - Redo change
-p       - Paste from buffer
-c       - Switch to palette mode
-<C-V>   - Switch to visual block mode
+<Space>, <CR>    - Paint color
+s                - Select color under the cursor
+f                - Replace color in area (Flood fill)
+u                - Undo change
+<C-R>            - Redo change
+p                - Paste from buffer
+c                - Switch to palette mode
+<C-V>            - Switch to visual block mode
 
 VISUAL BLOCK MODE
 
-<CR>    - Paint color
-<Space> - Paint color
-x, d    - Cut area
-y       - Copy area
-<ESC>   - Switch to normal mode
-c       - Switch to palette mode
+<Space>, <CR> - Paint color
+x, d          - Cut area
+y             - Copy area
+<ESC>         - Switch to normal mode
+c             - Switch to palette mode
 
 PALETTE MODE
 
-<CR>    - Select color
-<Space> - Select color
-<ESC>   - Switch to normal mode
-<C-V>   - Switch to visual block mode
+<Space>, <CR>    - Select color
+<ESC>            - Switch to normal mode
+<C-V>            - Switch to visual block mode
 ```
 
 # Commands
@@ -70,8 +67,8 @@ PALETTE MODE
 ```
 :w FILENAME<CR>         - Write to FILENAME
 :wq FILENAME<CR>        - Write to FILENAME and quit
-:exp FILENAME.svg<CR>   - Export to FILENAME in SVG format
-:exp FILENAMExN.png<CR> - Export to FILENAME in PNG format with an optional scale factor N
+:exp FILENAME.svg<CR>   - Export to FILENAME in svg format
+:exp FILENAMExN.png<CR> - Export to FILENAME in png format with an optional scale factor N
 :q<CR>                  - Quit
 ```
 

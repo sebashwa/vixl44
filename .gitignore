@@ -3,6 +3,7 @@
 
 ### Go ###
 # Binaries for programs and plugins
+vixl44
 *.exe
 *.dll
 *.so

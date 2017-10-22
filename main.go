@@ -48,10 +48,6 @@ loop:
         shouldQuit := keybindings.CommandMode(event.Ch, event.Key)
         if shouldQuit { break loop }
       } else {
-        keybindings.CursorMovement(event.Ch, event.Key)
-        keybindings.Common(event.Ch)
-        keybindings.ModeSelection(event.Ch, event.Key)
-
         switch state.CurrentMode {
         case modes.VisualBlockMode:
           keybindings.VisualBlockMode(event.Ch, event.Key)
@@ -60,6 +56,10 @@ loop:
         case modes.NormalMode:
           keybindings.NormalMode(event.Ch, event.Key)
         }
+
+        keybindings.CursorMovement(event.Ch, event.Key)
+        keybindings.Common(event.Ch)
+        keybindings.ModeSelection(event.Ch, event.Key)
       }
 
       draw()

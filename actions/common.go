@@ -16,10 +16,6 @@ func SetHint(message string) {
   state.StatusBar.Hint = message
 }
 
-func SetCommand(command string) {
-  state.StatusBar.Command = command
-}
-
 func updateCanvasFromHistory(err error) {
   state.Canvas.Values = state.History.GetCurrentCanvasValuesCopy()
   if err != nil {

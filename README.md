@@ -1,6 +1,10 @@
 ![Logo](examples/logo.png)
 
-# Installation
+# vixl44
+
+Create pixel art inside your terminal using vim movements
+
+## Installation
 
 [Get go](https://golang.org/dl/), then:
 
@@ -8,7 +12,7 @@
 go get github.com/sebashwa/vixl44
 ```
 
-# Usage
+## Usage
 
 ```
 ~/go/bin/vixl44 [OPTIONS] [FILENAME]
@@ -25,44 +29,50 @@ OPTIONS
     number of rows, default is 20, 0 means full height, ignored if name of existing file given
 ```
 
-# Key bindings
+## Keybindings
 
-```
-MOVEMENT
+### Movement
 
-h,j,k,l - Move cursor left, down, up, right
-w       - Move cursor 5 columns right
-b       - Move cursor 5 columns left
-<C-D>   - Move cursor 5 rows down
-<C-U>   - Move cursor 5 rows up
+Keys                                                | Action
+----------------------------------------------------|----------------------------------
+<kbd>h</kbd>,<kbd>j</kbd>,<kbd>k</kbd>,<kbd>l</kbd> | Move cursor left, down, up, right
+<kbd>w</kbd>                                        | Move cursor 5 columns right
+<kbd>b</kbd>                                        | Move cursor 5 columns left
+<kbd>Ctrl-d</kbd>                                   | Move cursor 5 rows down
+<kbd>Ctrl-u</kbd>                                   | Move cursor 5 rows up
 
-NORMAL MODE
+### Normal Mode
 
-<Space>, <CR> - Paint color
-s             - Select color under the cursor
-f             - Replace color in area (Flood fill)
-u             - Undo change
-<C-R>         - Redo change
-p             - Paste from buffer
-c             - Switch to palette mode
-<C-V>         - Switch to visual block mode
+Keys                                                | Action
+----------------------------------------------------|----------------------------------
+<kbd>Space</kbd>, <kbd>Return</kbd>                 | Paint color
+<kbd>s</kbd>                                        | Select color under the cursor
+<kbd>f</kbd>                                        | Replace color in area (Flood fill)
+<kbd>u</kbd>                                        | Undo change
+<kbd><C-R>                                          | Redo change
+<kbd>p</kbd>                                        | Paste from buffer
+<kbd>c</kbd>                                        | Switch to palette mode
+<kbd>Ctrl-v</kbd>                                   | Switch to visual block mode
 
-VISUAL BLOCK MODE
+### Visual Block Mode
 
-<Space>, <CR> - Paint color
-x, d          - Cut area
-y             - Copy area
-<ESC>         - Switch to normal mode
-c             - Switch to palette mode
+Keys                                                | Action
+----------------------------------------------------|----------------------------------
+<kbd>Space</kbd>, <kbd>Return</kbd>                 | Paint color
+<kbd>x</kbd>, <kbd>d</kbd>                          | Cut area
+<kbd>y</kbd>                                        | Copy area
+<kbd>Esc</kbd>                                      | Switch to normal mode
+<kbd>c</kbd>                                        | Switch to palette mode
 
-PALETTE MODE
+### Palette Mode
 
-<Space>, <CR> - Select color
-<ESC>         - Switch to normal mode
-<C-V>         - Switch to visual block mode
-```
+Keys                                                | Action
+----------------------------------------------------|----------------------------------
+<kbd>Space</kbd>, <kbd>Return</kbd>                 | Select color
+<kbd>Esc</kbd>                                      | Switch to normal mode
+<kbd>Ctrl-v</kbd>                                   | Switch to visual block mode
 
-# Commands
+## Commands
 
 ```
 :w FILENAME<CR>         - Write to FILENAME
@@ -73,6 +83,6 @@ PALETTE MODE
 :q<CR>                  - Quit
 ```
 
-# License
+## License
 
 This project is free software: You can redistribute it and/or modify it under the terms of the [GNU General Public License](https://www.gnu.org/licenses/gpl.html), either version 3 of the License, or (at your option) any later version.

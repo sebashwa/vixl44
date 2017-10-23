@@ -139,7 +139,7 @@ func (canvas Canvas) ConvertToANSI() []byte {
 
       buffer.WriteString(stringValue)
     }
-    buffer.WriteString("\n")
+    buffer.WriteString("\x1b[0m\n")
   }
 
   return buffer.Bytes()

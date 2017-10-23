@@ -23,7 +23,7 @@ func TestCanvasConvertToANSI(t *testing.T) {
       }
 
       ansi := canvas.ConvertToANSI()
-      expectedString := "\033[0m \033[48;5;1m \n\033[48;5;0m \033[48;5;2m \n"
+      expectedString := "\033[0m \033[48;5;1m \033[0m\n\033[48;5;0m \033[48;5;2m \033[0m\n"
 
       idLove(ansi, "to equal", []byte(expectedString))
     })

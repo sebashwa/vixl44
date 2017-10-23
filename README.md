@@ -47,9 +47,9 @@ Keys                                                | Action
 ----------------------------------------------------|----------------------------------
 <kbd>Space</kbd>, <kbd>Return</kbd>                 | Paint color
 <kbd>s</kbd>                                        | Select color under the cursor
-<kbd>f</kbd>                                        | Replace color in area (Flood fill)
+<kbd>f</kbd>                                        | Replace color in area ([Flood fill](https://en.wikipedia.org/wiki/Flood_fill))
 <kbd>u</kbd>                                        | Undo change
-<kbd><C-R>                                          | Redo change
+<kbd><Ctrl-r</kbd>                                  | Redo change
 <kbd>p</kbd>                                        | Paste from buffer
 <kbd>c</kbd>                                        | Switch to palette mode
 <kbd>Ctrl-v</kbd>                                   | Switch to visual block mode

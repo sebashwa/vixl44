@@ -1,6 +1,6 @@
 ![Logo](examples/logo.png)
 
-# vixl44
+# [vixl44](https://sebashwa.github.io/vixl44)
 
 Create pixel art inside your terminal using vim movements
 
@@ -49,7 +49,7 @@ Keys                                                | Action
 <kbd>s</kbd>                                        | Select color under the cursor
 <kbd>f</kbd>                                        | Replace color in area ([Flood fill](https://en.wikipedia.org/wiki/Flood_fill))
 <kbd>u</kbd>                                        | Undo change
-<kbd><Ctrl-r</kbd>                                  | Redo change
+<kbd>Ctrl-r</kbd>                                   | Redo change
 <kbd>p</kbd>                                        | Paste from buffer
 <kbd>c</kbd>                                        | Switch to palette mode
 <kbd>Ctrl-v</kbd>                                   | Switch to visual block mode

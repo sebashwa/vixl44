@@ -23,7 +23,7 @@
   branch = "master"
   name = "github.com/sebashwa/iwouldlove"
   packages = ["."]
-  revision = "1261b189780e65a5b433d39117d06dd16e91bc13"
+  revision = "7828307c0c7dbfbc89d8597c261c5b8b4caa89e0"
 
 [solve-meta]
   analyzer-name = "dep"

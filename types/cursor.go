@@ -1,8 +1,8 @@
 package types
 
 type Cursor struct {
-  Position vertex
-  VisualModeFixpoint vertex
+  Position Vertex
+  VisualModeFixpoint Vertex
 }
 
 func rangeLimits(a, b int) (int, int) {

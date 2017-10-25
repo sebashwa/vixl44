@@ -6,42 +6,9 @@ import (
   "github.com/sebashwa/vixl44/modes"
   "github.com/sebashwa/vixl44/state"
   commonActions  "github.com/sebashwa/vixl44/actions"
-  cursorActions  "github.com/sebashwa/vixl44/actions/cursor"
   paintActions   "github.com/sebashwa/vixl44/actions/paint"
   commandActions "github.com/sebashwa/vixl44/actions/command"
 )
-
-func CursorMovement(Ch rune, Key termbox.Key) {
-  switch Ch {
-  case '0':
-    cursorActions.JumpToBeginningOfLine()
-  case '$':
-    cursorActions.JumpToEndOfLine()
-  case 'b':
-    cursorActions.Move('X', -10)
-  case 'g':
-    cursorActions.JumpToFirstLine()
-  case 'G':
-    cursorActions.JumpToLastLine()
-  case 'h':
-    cursorActions.Move('X', -2)
-  case 'j':
-    cursorActions.Move('Y', 1)
-  case 'k':
-    cursorActions.Move('Y', -1)
-  case 'l':
-    cursorActions.Move('X', +2)
-  case 'w':
-    cursorActions.Move('X', +10)
-  }
-
-  switch Key {
-  case termbox.KeyCtrlU:
-    cursorActions.Move('Y', -5)
-  case termbox.KeyCtrlD:
-    cursorActions.Move('Y', +5,)
-  }
-}
 
 func PaletteMode(Ch rune, Key termbox.Key) {
   switch Ch {

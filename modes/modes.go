@@ -1,7 +1,13 @@
 package modes
 
-var NormalMode string
-var VisualBlockMode string
-var PaletteMode string
-var CommandMode string
+import (
+  "github.com/sebashwa/vixl44/types"
+)
+
+const (
+  NormalMode types.Mode = "NORMAL"
+  VisualBlockMode types.Mode = "VISUAL-BLOCK"
+  PaletteMode types.Mode = "PALETTE"
+  CommandMode types.Mode = "COMMAND"
+)
 

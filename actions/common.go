@@ -4,10 +4,11 @@ import (
   "github.com/nsf/termbox-go"
 
   "github.com/sebashwa/vixl44/state"
+  "github.com/sebashwa/vixl44/types"
   "github.com/sebashwa/vixl44/actions/paint"
 )
 
-func SetMode(mode string) {
+func SetMode(mode types.Mode) {
   state.CurrentMode = mode
 }
 

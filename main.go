@@ -105,11 +105,6 @@ func openOrCreateCanvas(filename string, columns, rows int) types.Canvas {
 func initializeApp() {
   filename, canvasRows, canvasColumns := parseArguments()
 
-  modes.NormalMode = "NORMAL"
-  modes.VisualBlockMode = "VISUAL-BLOCK"
-  modes.PaletteMode = "PALETTE"
-  modes.CommandMode = "COMMAND"
-
   state.Canvas = openOrCreateCanvas(filename, canvasColumns, canvasRows)
   state.Palette = factory.CreatePalette(state.Canvas.Columns, state.Canvas.Rows)
   state.StatusBar = types.StatusBar{

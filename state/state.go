@@ -11,7 +11,7 @@ var Palette types.Palette
 var StatusBar types.StatusBar
 var Cursor types.Cursor
 var SelectedColor termbox.Attribute
-var CurrentMode string
+var CurrentMode types.Mode
 var Filename string
 var History types.History
 var YankBuffer types.YankBuffer

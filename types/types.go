@@ -5,6 +5,7 @@ import (
 )
 
 type Palette [][]termbox.Attribute
+type Mode string
 
 type StatusBar struct {
   Position int

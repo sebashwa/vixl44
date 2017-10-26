@@ -10,18 +10,6 @@ import (
   commandActions "github.com/sebashwa/vixl44/actions/command"
 )
 
-func PaletteMode(Ch rune, Key termbox.Key) {
-  switch Ch {
-  case 'q':
-    commonActions.SetMode(modes.NormalMode)
-  }
-  switch Key {
-  case termbox.KeySpace, termbox.KeyEnter:
-    paintActions.SelectColor()
-    commonActions.SetMode(modes.NormalMode)
-  }
-}
-
 func NormalMode(Ch rune, Key termbox.Key) {
   switch Ch {
   case 'x':

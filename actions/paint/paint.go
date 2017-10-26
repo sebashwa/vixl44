@@ -29,13 +29,21 @@ func SelectColor() {
   }
 }
 
-func FillPixel(color termbox.Attribute) {
+func fillPixel(color termbox.Attribute) {
   position := state.Cursor.Position
 
   state.Canvas.Values[position.X][position.Y] = color
   state.Canvas.Values[position.X + 1][position.Y] = color
 
   state.History.AddCanvasState(state.Canvas.GetValuesCopy())
+}
+
+func FillPixel() {
+  fillPixel(state.SelectedColor)
+}
+
+func KillPixel() {
+  fillPixel(termbox.ColorDefault)
 }
 
 func FillArea(color termbox.Attribute) {

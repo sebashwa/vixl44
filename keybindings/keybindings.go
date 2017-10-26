@@ -10,28 +10,6 @@ import (
   commandActions "github.com/sebashwa/vixl44/actions/command"
 )
 
-func NormalMode(Ch rune, Key termbox.Key) {
-  switch Ch {
-  case 'x':
-    paintActions.FillPixel(termbox.ColorDefault)
-  case 's':
-    paintActions.SelectColor()
-  case 'f':
-    paintActions.FloodFill()
-  case 'u':
-    commonActions.Undo()
-  case 'p':
-    commonActions.Paste()
-  }
-
-  switch Key {
-  case termbox.KeyCtrlR:
-    commonActions.Redo()
-  case termbox.KeySpace, termbox.KeyEnter:
-    paintActions.FillPixel(state.SelectedColor)
-  }
-}
-
 func VisualBlockMode(Ch rune, Key termbox.Key) {
   switch Ch {
   case 'y':

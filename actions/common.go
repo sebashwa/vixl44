@@ -42,7 +42,7 @@ func Copy() {
 
 func Cut() {
   Copy()
-  paint.FillArea(termbox.ColorDefault)
+  paint.KillArea()
 }
 
 func Paste() {

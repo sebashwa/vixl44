@@ -46,17 +46,24 @@ func KillPixel() {
   fillPixel(termbox.ColorDefault)
 }
 
-func FillArea(color termbox.Attribute) {
+func fillArea(color termbox.Attribute) {
   xMin, xMax, yMin, yMax := state.Cursor.GetVisualModeArea()
 
-  for x := xMin; x <= xMax; x++ {
+  for x := xMin; x <= xMax + 1; x++ {
     for y := yMin; y <= yMax; y++ {
       state.Canvas.Values[x][y] = color
-      state.Canvas.Values[x + 1][y] = color
     }
   }
 
   state.History.AddCanvasState(state.Canvas.GetValuesCopy())
+}
+
+func FillArea() {
+  fillArea(state.SelectedColor)
+}
+
+func KillArea() {
+  fillArea(termbox.ColorDefault)
 }
 
 func floodFill(x, y int, targetColor termbox.Attribute, replacementColor termbox.Attribute) {

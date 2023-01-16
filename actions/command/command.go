@@ -3,7 +3,7 @@ package command
 import (
 	"encoding/json"
 	"errors"
-	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 
@@ -74,7 +74,7 @@ func writeStateToFile(pathToFilename string) (string, error) {
 	}
 
 	json, _ := json.Marshal(types.File{Canvas: state.Canvas.ConvertToFileCanvas()})
-	err = ioutil.WriteFile(filename, json, 0644)
+	err = os.WriteFile(filename, json, 0644)
 
 	if err != nil {
 		return "", errors.New(err.Error())
@@ -111,14 +111,14 @@ func exportStateToImage(filename string) (string, error) {
 	case "ansi":
 		buf = state.Canvas.ConvertToANSI()
 	default:
-		err = errors.New("Add .svg / .png / .ansi as extension")
+		err = errors.New("add .svg / .png / .ansi as extension")
 	}
 
 	if err != nil {
 		return "", errors.New(err.Error())
 	}
 
-	err = ioutil.WriteFile(filename, buf, 0644)
+	err = os.WriteFile(filename, buf, 0644)
 
 	if err != nil {
 		return "", errors.New(err.Error())

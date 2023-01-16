@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"flag"
 	"github.com/nsf/termbox-go"
-	"io/ioutil"
 	"os"
 
 	"github.com/sebashwa/vixl44/drawing"
@@ -89,7 +88,7 @@ func parseArguments() (string, int, int) {
 
 func openOrCreateCanvas(filename string, columns, rows int) types.Canvas {
 	if _, err := os.Stat(filename); err == nil {
-		if data, err := ioutil.ReadFile(filename); err == nil {
+		if data, err := os.ReadFile(filename); err == nil {
 			var file types.File
 			if err := json.Unmarshal(data, &file); err != nil {
 				panic(err)

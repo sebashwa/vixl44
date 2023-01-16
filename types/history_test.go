@@ -3,6 +3,7 @@ package types
 import (
 	"github.com/nsf/termbox-go"
 	"github.com/sebashwa/iwouldlove"
+	"log"
 	"testing"
 )
 
@@ -80,7 +81,10 @@ func TestUndo(t *testing.T) {
 			Position: 0,
 		}
 
-		history.Undo()
+		err := history.Undo()
+		if err != nil {
+			log.Println(err)
+		}
 
 		idLove(history.Position, "to equal", 1)
 	})
@@ -114,7 +118,10 @@ func TestRedo(t *testing.T) {
 			Position: 1,
 		}
 
-		history.Redo()
+		err := history.Redo()
+		if err != nil {
+			log.Println(err)
+		}
 
 		idLove(history.Position, "to equal", 0)
 	})

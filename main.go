@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"github.com/nsf/termbox-go"
+	"log"
 	"os"
 
 	"github.com/sebashwa/vixl44/drawing"
@@ -15,7 +16,11 @@ import (
 )
 
 func draw() {
-	termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
+	err := termbox.Clear(termbox.ColorDefault, termbox.ColorDefault)
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
 	if state.CurrentMode == modes.PaletteMode {
 		drawing.DrawPalette()
@@ -35,7 +40,11 @@ func draw() {
 		drawing.DrawStatusBar()
 	}
 
-	termbox.Flush()
+	err = termbox.Flush()
+	if err != nil {
+		log.Println(err)
+		return
+	}
 }
 
 func pollEvents() {

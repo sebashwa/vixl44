@@ -269,7 +269,7 @@ func MapTermboxColorToColor(color termbox.Attribute) (colorful.Color, error) {
 	kolor, err := colorful.Hex(hexPalette[color])
 
 	if err != nil {
-		return colorful.Color{0, 0, 0}, err
+		return colorful.Color{}, err
 	}
 
 	return kolor, nil

@@ -9,13 +9,13 @@ import (
 var errorLocations = make(map[int]struct{})
 
 var whiteCanvas = [][]termbox.Attribute{
-	[]termbox.Attribute{
+	{
 		termbox.ColorWhite,
 	},
 }
 
 var blackCanvas = [][]termbox.Attribute{
-	[]termbox.Attribute{
+	{
 		termbox.ColorBlack,
 	},
 }

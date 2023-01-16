@@ -18,10 +18,10 @@ func TestVisualBlockMode(t *testing.T) {
 		state.CurrentMode = modes.VisualBlockMode
 		state.Canvas = types.Canvas{
 			Values: [][]termbox.Attribute{
-				[]termbox.Attribute{termbox.ColorWhite, termbox.ColorWhite},
-				[]termbox.Attribute{termbox.ColorWhite, termbox.ColorWhite},
-				[]termbox.Attribute{termbox.ColorWhite, termbox.ColorWhite},
-				[]termbox.Attribute{termbox.ColorWhite, termbox.ColorWhite},
+				{termbox.ColorWhite, termbox.ColorWhite},
+				{termbox.ColorWhite, termbox.ColorWhite},
+				{termbox.ColorWhite, termbox.ColorWhite},
+				{termbox.ColorWhite, termbox.ColorWhite},
 			},
 			Rows:    2,
 			Columns: 4,
@@ -49,10 +49,10 @@ func TestVisualBlockMode(t *testing.T) {
 		it(fmt.Sprintf("cuts the area and returns to normal mode when pressing '%v'", string(deleteKey)), func() {
 			expectedYankBuffer := state.Canvas.GetValuesCopy()
 			expectedCanvas := [][]termbox.Attribute{
-				[]termbox.Attribute{termbox.ColorDefault, termbox.ColorDefault},
-				[]termbox.Attribute{termbox.ColorDefault, termbox.ColorDefault},
-				[]termbox.Attribute{termbox.ColorDefault, termbox.ColorDefault},
-				[]termbox.Attribute{termbox.ColorDefault, termbox.ColorDefault},
+				{termbox.ColorDefault, termbox.ColorDefault},
+				{termbox.ColorDefault, termbox.ColorDefault},
+				{termbox.ColorDefault, termbox.ColorDefault},
+				{termbox.ColorDefault, termbox.ColorDefault},
 			}
 
 			VisualBlockMode(deleteKey, *new(termbox.Key))
@@ -66,10 +66,10 @@ func TestVisualBlockMode(t *testing.T) {
 	it("fills the area with the selected color and returns to normal mode when pressing Enter", func() {
 		state.SelectedColor = termbox.ColorRed
 		expectedCanvas := [][]termbox.Attribute{
-			[]termbox.Attribute{termbox.ColorRed, termbox.ColorRed},
-			[]termbox.Attribute{termbox.ColorRed, termbox.ColorRed},
-			[]termbox.Attribute{termbox.ColorRed, termbox.ColorRed},
-			[]termbox.Attribute{termbox.ColorRed, termbox.ColorRed},
+			{termbox.ColorRed, termbox.ColorRed},
+			{termbox.ColorRed, termbox.ColorRed},
+			{termbox.ColorRed, termbox.ColorRed},
+			{termbox.ColorRed, termbox.ColorRed},
 		}
 
 		VisualBlockMode(0, termbox.KeyEnter)
@@ -81,10 +81,10 @@ func TestVisualBlockMode(t *testing.T) {
 	it("fills the area with the selected color and returns to normal mode when pressing Space", func() {
 		state.SelectedColor = termbox.ColorRed
 		expectedCanvas := [][]termbox.Attribute{
-			[]termbox.Attribute{termbox.ColorRed, termbox.ColorRed},
-			[]termbox.Attribute{termbox.ColorRed, termbox.ColorRed},
-			[]termbox.Attribute{termbox.ColorRed, termbox.ColorRed},
-			[]termbox.Attribute{termbox.ColorRed, termbox.ColorRed},
+			{termbox.ColorRed, termbox.ColorRed},
+			{termbox.ColorRed, termbox.ColorRed},
+			{termbox.ColorRed, termbox.ColorRed},
+			{termbox.ColorRed, termbox.ColorRed},
 		}
 
 		VisualBlockMode(0, termbox.KeySpace)

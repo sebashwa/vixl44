@@ -16,8 +16,8 @@ func TestNormalMode(t *testing.T) {
 		state.Cursor = types.Cursor{}
 		state.Canvas = types.Canvas{
 			Values: [][]termbox.Attribute{
-				[]termbox.Attribute{termbox.ColorWhite},
-				[]termbox.Attribute{termbox.ColorWhite},
+				{termbox.ColorWhite},
+				{termbox.ColorWhite},
 			},
 			Rows:    1,
 			Columns: 2,
@@ -70,8 +70,8 @@ func TestNormalMode(t *testing.T) {
 	it("pastes the yank buffer content when pressing 'p'", func() {
 		state.YankBuffer = types.YankBuffer{
 			Values: [][]termbox.Attribute{
-				[]termbox.Attribute{termbox.ColorRed},
-				[]termbox.Attribute{termbox.ColorRed},
+				{termbox.ColorRed},
+				{termbox.ColorRed},
 			},
 		}
 

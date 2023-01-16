@@ -20,7 +20,7 @@ func (history *History) AddCanvasState(canvasState [][]termbox.Attribute) {
 func (history *History) Undo() error {
 	newPosition := history.Position + 1
 	if newPosition > len(history.Values)-1 {
-		return errors.New("Reached oldest canvas state")
+		return errors.New("reached oldest canvas state")
 	} else {
 		history.Position = newPosition
 		return nil
@@ -30,7 +30,7 @@ func (history *History) Undo() error {
 func (history *History) Redo() error {
 	newPosition := history.Position - 1
 	if newPosition < 0 {
-		return errors.New("Reached newest canvas state")
+		return errors.New("reached newest canvas state")
 	} else {
 		history.Position = newPosition
 		return nil

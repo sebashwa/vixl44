@@ -62,7 +62,7 @@ func getFilename(filename string) (string, error) {
 	} else if state.Filename != "" {
 		return state.Filename, nil
 	} else {
-		return "", errors.New("No filename given")
+		return "", errors.New("no filename given")
 	}
 }
 
@@ -86,7 +86,7 @@ func writeStateToFile(pathToFilename string) (string, error) {
 
 func exportStateToImage(filename string) (string, error) {
 	if filename == "" {
-		return "", errors.New("No filename given")
+		return "", errors.New("no filename given")
 	}
 
 	var err error

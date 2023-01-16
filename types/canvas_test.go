@@ -11,8 +11,8 @@ func TestCanvasConvertToANSI(t *testing.T) {
 
 	it("returns a byte slice of the current canvas encoded in ANSI", func() {
 		canvasValues := [][]termbox.Attribute{
-			[]termbox.Attribute{termbox.Attribute(0), termbox.Attribute(1)},
-			[]termbox.Attribute{termbox.Attribute(2), termbox.Attribute(3)},
+			{termbox.Attribute(0), termbox.Attribute(1)},
+			{termbox.Attribute(2), termbox.Attribute(3)},
 		}
 
 		canvas := Canvas{

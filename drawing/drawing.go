@@ -19,7 +19,7 @@ func DrawCanvas() {
 func DrawPalette() {
 	for x, column := range state.Palette {
 		for y := range column {
-			color := termbox.Attribute(state.Palette[x][y])
+			color := state.Palette[x][y]
 			termbox.SetCell(x, y, ' ', color, color)
 		}
 	}

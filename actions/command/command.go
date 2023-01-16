@@ -73,8 +73,8 @@ func writeStateToFile(pathToFilename string) (string, error) {
 		return "", err
 	}
 
-	json, _ := json.Marshal(types.File{Canvas: state.Canvas.ConvertToFileCanvas()})
-	err = os.WriteFile(filename, json, 0644)
+	jsonLoaded, _ := json.Marshal(types.File{Canvas: state.Canvas.ConvertToFileCanvas()})
+	err = os.WriteFile(filename, jsonLoaded, 0644)
 
 	if err != nil {
 		return "", errors.New(err.Error())
